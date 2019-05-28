@@ -20,7 +20,7 @@ class Twitter_bot:
 
     '''
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt',
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     # twitter tokenを記述しておく
