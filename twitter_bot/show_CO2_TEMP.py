@@ -17,7 +17,7 @@ class show_CO2_TEMP:
         co2 = sensor.get_co2()
         temp = sensor.get_temperature()
 
-        return "#CO2: {}ppm".format(co2["co2"]) + "\n" + "#TEMPERATURE: {}℃".format(temp["temperature"])
+        return "#CO2  {}ppm".format(co2["co2"]) + "\n" + "#TEMPERATURE  {}℃".format(temp["temperature"])
 
         # 表示
         # print("CO2: {}ppm".format(co2["co2"]))
