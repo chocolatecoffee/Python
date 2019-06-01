@@ -101,6 +101,7 @@ class Twitter_bot:
         msg = msg + datetime.datetime.now().isoformat()
         msg = msg + "\n"
         msg = msg + sesorinf
+
         return msg
 
     def main(self):
