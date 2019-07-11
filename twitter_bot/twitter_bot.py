@@ -78,11 +78,9 @@ class Twitter_bot:
     def updateTweet(self, obj_twitter, msg):
         '''ツイートする．'''
         logging.debug('VV')
-        msg = datetime.datetime.now().isoformat()+"\n"+msg
         # Twitterに投稿
         rst = obj_twitter.statuses.update(status=msg)
-        # logging.debug(rst)
-
+        logging.debug(rst)
         logging.debug('AA')
 
     def updateTweetWithImg(self, obj_twitter, msg, img):
@@ -92,7 +90,7 @@ class Twitter_bot:
         # Twitterに投稿
         rst = obj_twitter.statuses.update(
             status=msg, media_ids=",".join([img]))
-        # logging.debug(rst)
+        logging.debug(rst)
 
         logging.debug('AA')
 
@@ -109,16 +107,17 @@ class Twitter_bot:
         logging.debug('VV')
 
         obj_json = self.loadJSON(self)
-        obj_twitter_media = self.setTokenMedia(self, obj_json)
+        # obj_twitter_media = self.setTokenMedia(self, obj_json)
         obj_twitter = self.setToken(self, obj_json)
         rsp_sensorinf = self.getSensorInf(self)
-        fileimg = self.getFileImage(self)
-        rsp_imgID = self.uploadMedia(self, obj_twitter_media, fileimg)
-        logging.debug(rsp_imgID)
+        # fileimg = self.getFileImage(self)
+        # rsp_imgID = self.uploadMedia(self, obj_twitter_media, fileimg)
+        # logging.debug(rsp_imgID)
 
         sendmsg = self.genSendMsg(self, rsp_sensorinf)
 
-        self.updateTweetWithImg(self, obj_twitter, sendmsg, rsp_imgID)
+        # self.updateTweetWithImg(self, obj_twitter, sendmsg, rsp_imgID)
+        self.updateTweet(self, obj_twitter, sendmsg)
 
         logging.debug('AA')
 
