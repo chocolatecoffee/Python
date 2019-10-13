@@ -8,8 +8,10 @@ import json
 import logging
 
 import twitter
-import show_CO2_TEMP
 import datetime
+
+from CO2Meter import *
+from time import sleep
 
 
 class Twitter_bot:
@@ -39,7 +41,7 @@ class Twitter_bot:
         return json.load(open(self._jsondata, 'r'))
 
     def setTokenMedia(self, obj_json):
-        ''' 画像アップロード用
+        ''' 画像アップロード用\n
             読み込んだjsonからtwitter tokenの取り出しtwitterObjectをリターンする．
         '''
         logging.debug('VV')
@@ -54,11 +56,19 @@ class Twitter_bot:
         return twitter.Twitter(auth=twitter.OAuth(
             obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
 
-    def getSensorInf(self):
-        '''センサーデータを取得'''
+    def getSensor0_CO2(self, sensor):
+        '''センサーデータ CO2濃度を取得'''
         logging.debug('VV')
+        # CO2濃度を取得(単位はppm)
+        return sensor.get_co2()
+        # "#CO2  {}ppm".format(co2["co2"])
 
-        return show_CO2_TEMP.show_CO2_TEMP.get_Inf()
+    def getSensor0_Temp(self, sensor):
+        '''センサーデータ 気温を取得'''
+        logging.debug('VV')
+        # 気温を取得
+        return sensor.get_temperature()
+        # #TEMPERATURE  {}℃".format(temp["temperature"])
 
     def getFileImage(self):
         '''Tweetに添付する画像をカレントから取得する．
@@ -94,11 +104,14 @@ class Twitter_bot:
 
         logging.debug('AA')
 
-    def genSendMsg(self, sesorinf):
+    def genSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2):
         msg = ""
         msg = msg + datetime.datetime.now().isoformat()
         msg = msg + "\n"
-        msg = msg + sesorinf
+        msg = msg + \
+            '#CO2  {}ppm'.format(rsp_sensor0_co2['co2'])
+        msg = msg + \
+            '# TEMPERATURE  {}℃'.format(rsp_sensor0_temp['temperature'])
 
         return msg
 
@@ -109,12 +122,19 @@ class Twitter_bot:
         obj_json = self.loadJSON(self)
         # obj_twitter_media = self.setTokenMedia(self, obj_json)
         obj_twitter = self.setToken(self, obj_json)
-        rsp_sensorinf = self.getSensorInf(self)
+
+        # センサーへアクセス
+        sensor0 = CO2Meter("/dev/hidraw0")
+        # ちょっと待つ
+        sleep(10)
+        rsp_sensor0_co2 = self.getSensor0_CO2(self, sensor0)
+        rsp_sensor0_temp = self.getSensor0_Temp(self, sensor0)
+
         # fileimg = self.getFileImage(self)
         # rsp_imgID = self.uploadMedia(self, obj_twitter_media, fileimg)
         # logging.debug(rsp_imgID)
 
-        sendmsg = self.genSendMsg(self, rsp_sensorinf)
+        sendmsg = self.genSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2)
 
         # self.updateTweetWithImg(self, obj_twitter, sendmsg, rsp_imgID)
         self.updateTweet(self, obj_twitter, sendmsg)

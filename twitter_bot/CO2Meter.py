@@ -1,3 +1,6 @@
+#!/usr/local/bin python3.7
+# -*- coding: utf-8 -*-
+
 import sys
 import fcntl
 import threading
@@ -120,7 +123,7 @@ class CO2Meter:
         result = {}
         if CO2METER_TEMP in self._values:
             result = {'temperature': (
-                round(self._values[CO2METER_TEMP]/16.0-273.15), 1)}
+                round(self._values[CO2METER_TEMP]/16.0-273.15, 1))}
 
         return result
 
