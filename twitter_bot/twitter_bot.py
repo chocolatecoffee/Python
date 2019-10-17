@@ -109,9 +109,9 @@ class Twitter_bot:
         msg = msg + datetime.datetime.now().isoformat()
         msg = msg + "\n"
         msg = msg + \
-            '#CO2  {}ppm'.format(rsp_sensor0_co2['co2'])
+            '#CO2 {}ppm'.format(rsp_sensor0_co2['co2'])+"\n"
         msg = msg + \
-            '# TEMPERATURE  {}℃'.format(rsp_sensor0_temp['temperature'])
+            '#TEMPERATURE {}℃'.format(rsp_sensor0_temp['temperature'])
 
         return msg
 
