@@ -23,8 +23,7 @@ class Twitter_bot:
 
     '''
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',
-                        format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     _jsondata = "./twitter_token.json"
     '''twitter tokenを記述しておく'''
@@ -45,16 +44,14 @@ class Twitter_bot:
             読み込んだjsonからtwitter tokenの取り出しtwitterObjectをリターンする．
         '''
         logging.debug('VV')
-        return twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth(
-            obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
+        return twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth( obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
 
     def setToken(self, obj_json):
         '''読み込んだjsonからtwitter tokenの取り出しtwitterObjectをリターンする．
         '''
         logging.debug('VV')
 
-        return twitter.Twitter(auth=twitter.OAuth(
-            obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
+        return twitter.Twitter(auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
 
     def getSensor0_CO2(self, sensor):
         '''センサーデータ CO2濃度を取得'''
@@ -98,8 +95,7 @@ class Twitter_bot:
         logging.debug('VV')
 
         # Twitterに投稿
-        rst = obj_twitter.statuses.update(
-            status=msg, media_ids=",".join([img]))
+        rst = obj_twitter.statuses.update(status=msg, media_ids=",".join([img]))
         logging.debug(rst)
 
         logging.debug('AA')

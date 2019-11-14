@@ -8,7 +8,7 @@ import os
 logging.basicConfig(level=logging.DEBUG, filename='.\\Log.txt', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s', filemode='w')
 
 class LoadAndAddJSON:
-    '''[summary]
+    '''[センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス]
 
     Returns:
         [type]: [description]
