@@ -5,7 +5,7 @@ from collections import OrderedDict
 import os
 
 # ログレベルのフォーマット Log.txtファイルに出力
-logging.basicConfig(level=logging.DEBUG, filename='.\\Log.txt', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s', filemode='w')
+logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s', filemode='w')
 
 class LoadAndAddJSON:
     '''[センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス]
@@ -13,14 +13,13 @@ class LoadAndAddJSON:
     Returns:
         [type]: [description]
     '''
-
     _today = datetime.datetime.now()
     '''datetime obj "Today"
     '''
-     # _today = datetime.datetime.now().isoformat()
+    # _today = datetime.datetime.now().isoformat()
     # today 2019-10-17T23:11:56.338690
 
-    _jsonfile = '.\\{}_SensorData.json'.format(_today.year)
+    _jsonfile = './{}_SensorData.json'.format(_today.year)
     '''年ごとにjsonファイルを作成 "2019_SensorData.json"と先頭に年が入る
     '''
 
@@ -28,15 +27,19 @@ class LoadAndAddJSON:
     '''新規作成用のJSON「空」フォーマット
     '''
 
-    def add_Data(self, sensordata):
-        '''[Args(センサーのデータ)を_jsonfileへ追記する．月別に毎日毎時のデータを追記する．\n
+
+    def add_SensorDataToJSON(self ,sensordata):
+        '''Args(センサーのデータ)を_jsonfileへ追記する．月別に毎日毎時のデータを追記する．\n
         _jsonfile1の形式：\n
         {"01": [{"dd": "01","H": "01","mm": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
         対応する内容\n
         {"月": [{"日": "01","時": "01","分": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
         
         Args:
-            jsonobj ([type]): [description]
+            sensordata ([Dict]):class:twitter_botから送られたセンサーのデータ\n
+            例):{"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
+
+        Returns:no return
         '''
 
         logging.debug('VV')
@@ -48,7 +51,7 @@ class LoadAndAddJSON:
         # "01": [{ "dd": "01","H": "01","mm": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},
         add_info ={"dd": str(self._today.day), "HH": str(self._today.hour), "mm":str(self._today.minute),"Temp":sensordata["Temp"],"CO2":sensordata["CO2"],"Barometer":sensordata["Barometer"],"Humidity":sensordata["Humidity"]}
         
-        jsonobj=self._load_JSON(self ,self._jsonfile)
+        jsonobj=self._load_JSON(self,self._jsonfile)
 
         if str(self._today.month) in jsonobj.keys():
             jsonobj[str(self._today.month)].append(add_info)
@@ -56,10 +59,12 @@ class LoadAndAddJSON:
         else:
             jsonobj.setdefault(str(self._today.month), [])
             jsonobj[str(self._today.month)].append(add_info)
+            
+        json.dump(jsonobj, open(self._jsonfile, 'w'), indent=4)
 
-        return jsonobj
+        logging.debug('AA')
 
-    def _load_JSON(self, jsonfile):
+    def _load_JSON(self,jsonfile):
         '''_jsonfileをロードしReturnする．存在しなければ，空のフォーマット「_Newjson_format」で新規作成しReturnをする．
 
         Args:
@@ -77,7 +82,7 @@ class LoadAndAddJSON:
         else:
             # with open(jsonfile, 'w') as f:
             #    f.write("")
-            logging.debug(jsonfile)
+            #logging.debug(jsonfile)
             json.dump(self._Newjson_format, open(jsonfile, 'w'), indent=4)
 
         logging.debug('AA')
@@ -85,18 +90,24 @@ class LoadAndAddJSON:
         return json.load(open(jsonfile, 'r'))
 
     def main(self):
-        '''[summary]
+        '''[ダブルクリックなどで実行された場合にmainを実行]
         '''
 
         Test_sensordata = {"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
 
         logging.debug('VV')
-        jsonobj = self.add_Data(self ,Test_sensordata)
-        json.dump(jsonobj, open(self._jsonfile, 'w'), indent=4)
+
+        self.add_SensorDataToJSON(self,Test_sensordata)
+        
         logging.debug('AA')
 
     def __init__(self):
+        '''
+        '''
+
         logging.debug('VV')
+
+
         logging.debug('AA')
 
 if __name__ == "__main__":
