@@ -9,6 +9,7 @@ import logging
 
 import twitter
 import datetime
+from LoadAndAddJSON import *
 
 from CO2Meter import *
 from time import sleep
@@ -23,7 +24,7 @@ class Twitter_bot:
 
     '''
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     _jsondata = "./twitter_token.json"
     '''twitter tokenを記述しておく'''
@@ -44,7 +45,7 @@ class Twitter_bot:
             読み込んだjsonからtwitter tokenの取り出しtwitterObjectをリターンする．
         '''
         logging.debug('VV')
-        return twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth( obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
+        return twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
 
     def setToken(self, obj_json):
         '''読み込んだjsonからtwitter tokenの取り出しtwitterObjectをリターンする．
@@ -58,14 +59,12 @@ class Twitter_bot:
         logging.debug('VV')
         # CO2濃度を取得(単位はppm)
         return sensor.get_co2()
-        # "#CO2  {}ppm".format(co2["co2"])
 
     def getSensor0_Temp(self, sensor):
         '''センサーデータ 気温を取得'''
         logging.debug('VV')
         # 気温を取得
         return sensor.get_temperature()
-        # #TEMPERATURE  {}℃".format(temp["temperature"])
 
     def getFileImage(self):
         '''Tweetに添付する画像をカレントから取得する．
@@ -95,7 +94,8 @@ class Twitter_bot:
         logging.debug('VV')
 
         # Twitterに投稿
-        rst = obj_twitter.statuses.update(status=msg, media_ids=",".join([img]))
+        rst = obj_twitter.statuses.update(
+            status=msg, media_ids=",".join([img]))
         logging.debug(rst)
 
         logging.debug('AA')
@@ -110,6 +110,14 @@ class Twitter_bot:
             '#TEMPERATURE {}℃'.format(rsp_sensor0_temp['temperature'])
 
         return msg
+
+    def writeSensordataToJSON(self, temp, co2):
+        
+        sensordata = {"Temp": str(temp), "CO2": str(co2), "Barometer": "XXXX", "Humidity": "XX"}
+        # {"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
+
+        addJSON = LoadAndAddJSON
+        addJSON.add_SensorDataToJSON(addJSON,sensordata)
 
     def main(self):
         '''メイン'''
@@ -135,6 +143,8 @@ class Twitter_bot:
         # self.updateTweetWithImg(self, obj_twitter, sendmsg, rsp_imgID)
         self.updateTweet(self, obj_twitter, sendmsg)
 
+        self.writeSensordataToJSON(self,rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'])
+        
         logging.debug('AA')
 
     def __init__(self):
