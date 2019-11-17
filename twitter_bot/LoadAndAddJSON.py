@@ -9,6 +9,9 @@ logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', format=' %(asctim
 
 class LoadAndAddJSON:
     '''[センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス]
+
+    Returns:
+        [type]: [description]
     '''
     _today = datetime.datetime.now()
     '''datetime obj "Today"
@@ -33,7 +36,7 @@ class LoadAndAddJSON:
         {"月": [{"日": "01","時": "01","分": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
         
         Args:
-            sensordata ([Dict]):class twitter_botから送られたセンサーのデータ\n
+            sensordata ([Dict]):class:twitter_botから送られたセンサーのデータ\n
             例):{"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
 
         Returns:no return
@@ -113,4 +116,3 @@ if __name__ == "__main__":
     myClass = LoadAndAddJSON
     myClass.main(myClass)
     logging.debug('AA')
-
