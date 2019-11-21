@@ -11,8 +11,8 @@ plt.bar(names, values)
 plt.subplot(132)
 plt.scatter(names, values)
 plt.subplot(133)
-
 plt.plot(names, values)
+
 plt.suptitle('Categorical Plotting')
 
 plt.grid(True)
