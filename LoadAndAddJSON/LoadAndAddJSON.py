@@ -8,7 +8,7 @@ import os
 logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s', filemode='w')
 
 class LoadAndAddJSON:
-    '''[センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス]
+    '''センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス
     '''
     _today = datetime.datetime.now()
     '''datetime obj "Today"
@@ -23,7 +23,6 @@ class LoadAndAddJSON:
     _Newjson_format = {}
     '''新規作成用のJSON「空」フォーマット
     '''
-
 
     def add_SensorDataToJSON(self ,sensordata):
         '''Args(センサーのデータ)を_jsonfileへ追記する．月別に毎日毎時のデータを追記する．\n
@@ -87,7 +86,7 @@ class LoadAndAddJSON:
         return json.load(open(jsonfile, 'r'))
 
     def main(self):
-        '''[ダブルクリックなどで実行された場合にmainを実行]
+        '''ダブルクリックなどで実行された場合にmainを実行
         '''
 
         Test_sensordata = {"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
