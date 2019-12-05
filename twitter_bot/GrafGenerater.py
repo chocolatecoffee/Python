@@ -60,7 +60,7 @@ class GrafGenerater:
         昨日が年末であれば，一年分のセンサーデータを取り出す．\n
         
         Returns:
-            [dict]: []
+            [dict]: 
         '''
 
         logging.debug('VV')
