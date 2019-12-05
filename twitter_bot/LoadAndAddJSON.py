@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',form
 class LoadAndAddJSON:
     '''センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス
     '''
+    
     _today = datetime.datetime.now()
     '''datetime obj "Today"
     '''
