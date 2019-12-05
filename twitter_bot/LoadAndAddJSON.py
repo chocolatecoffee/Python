@@ -5,13 +5,10 @@ from collections import OrderedDict
 import os
 
 # ログレベルのフォーマット Log.txtファイルに出力
-logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s', filemode='w')
+logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
 class LoadAndAddJSON:
-    '''[センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス]
-
-    Returns:
-        [type]: [description]
+    '''センサーのデータを_jsonfileへ月別に毎日毎時のデータを追記するクラス
     '''
     _today = datetime.datetime.now()
     '''datetime obj "Today"
@@ -27,7 +24,6 @@ class LoadAndAddJSON:
     '''新規作成用のJSON「空」フォーマット
     '''
 
-
     def add_SensorDataToJSON(self ,sensordata):
         '''Args(センサーのデータ)を_jsonfileへ追記する．月別に毎日毎時のデータを追記する．\n
         _jsonfile1の形式：\n
@@ -36,7 +32,7 @@ class LoadAndAddJSON:
         {"月": [{"日": "01","時": "01","分": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
         
         Args:
-            sensordata ([Dict]):class:twitter_botから送られたセンサーのデータ\n
+            sensordata ([Dict]):class twitter_botから送られたセンサーのデータ\n
             例):{"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
 
         Returns:no return
@@ -90,7 +86,7 @@ class LoadAndAddJSON:
         return json.load(open(jsonfile, 'r'))
 
     def main(self):
-        '''[ダブルクリックなどで実行された場合にmainを実行]
+        '''ダブルクリックなどで実行された場合にmainを実行
         '''
 
         Test_sensordata = {"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
@@ -116,3 +112,4 @@ if __name__ == "__main__":
     myClass = LoadAndAddJSON
     myClass.main(myClass)
     logging.debug('AA')
+
