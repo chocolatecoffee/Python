@@ -5,9 +5,10 @@ import json
 import logging
 import os
 
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 # ログレベルのフォーマット Log.txtファイルに出力
 logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
@@ -82,8 +83,8 @@ class GrafGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        if ( _today.year == _yesterday.year):
-        # if ( _today.year == 2018):
+        #if ( _today.year == _yesterday.year):
+        if ( _today.year == 2018):
 
             # 月は同じ
             if (_today.month == _yesterday.month):
@@ -128,12 +129,25 @@ class GrafGenerater:
 
         return month_sensordata
 
+    def TEST_genGraf(self):
+        ax = plt.subplot(111)
+        ax.grid(False)
+        im = ax.imshow(np.random.randn(100).reshape((10, 10)))
+
+        # create an axes on the right side of ax. The width of cax will be 5%
+        # of ax and the padding between cax and ax will be fixed at 0.05 inch.
+        divider = make_axes_locatable(ax)
+        cax = divider.append_axes("right", size="5%", pad=0.1)
+        plt.colorbar(im, cax=cax)
+        plt.show()
+        #plt.savefig()
 
     def main(self):
         '''[summary]
         '''
-        repack_sensordata = self.repackSensordata(self)
-        
+        #repacked_sensordata = self.repackSensordata(self)
+        # type(repacked_sensordata)
+        self.TEST_genGraf(self)
 
     def __init__(self):
         ''''''
