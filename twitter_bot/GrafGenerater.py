@@ -6,7 +6,15 @@ import logging
 import os
 
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import numpy as np
+
+
+from matplotlib import rcParams
+
+
+
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -26,12 +34,12 @@ _yesterday = _today - timedelta(days=1)
 _tomorrow = _today + timedelta(days=1)
 '''datetime obj "tomorrow" '''
 
- # _today.year
- # _today.month
- # _today.day
- # _today.hour
- # _today.minute
- # _today.weekday
+# _today.year
+# _today.month
+# _today.day
+# _today.hour
+# _today.minute
+# _today.weekday
 
 class GrafGenerater:
     '''20XX_SensorData.jsonから昨日のセンサーデータを取り出す．\n
@@ -83,8 +91,8 @@ class GrafGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        #if ( _today.year == _yesterday.year):
-        if ( _today.year == 2018):
+        if ( _today.year == _yesterday.year):
+        #if ( _today.year == 2018):
 
             # 月は同じ
             if (_today.month == _yesterday.month):
@@ -130,15 +138,44 @@ class GrafGenerater:
         return month_sensordata
 
     def TEST_genGraf(self):
-        ax = plt.subplot(111)
-        ax.grid(False)
-        im = ax.imshow(np.random.randn(100).reshape((10, 10)))
 
-        # create an axes on the right side of ax. The width of cax will be 5%
-        # of ax and the padding between cax and ax will be fixed at 0.05 inch.
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.1)
-        plt.colorbar(im, cax=cax)
+        #https://matplotlib.org/3.1.1/tutorials/colors/colormap-manipulation.html#sphx-glr-tutorials-colors-colormap-manipulation-py
+
+        # 描画領域の確保だけ、グラフは何も描画されない
+        #111の意味は、1行目1列の1番目という意味で、subplot(1,1,1)でも同じ.
+        plt.subplot(111)
+
+        # (Xこ, Y)
+        rbm = np.random.randn(48, 30)
+        #logging.debug(rbm)
+
+        # https://qiita.com/yniji/items/3fac25c2ffa316990d0c
+        # 日本語を利用する場合のFont指定 <個別に>
+        #igfont = {'family': 'IPAexGothic'}
+        # plt.title('title',**igfont)
+
+        # 日本語を利用する場合のFont指定 <全体>
+        rcParams['font.family'] = 'sans-serif'
+        rcParams['font.sans-serif'] = ['IPAPGothic', 'VL PGothic']
+
+        #top = cm.get_cmap('Oranges_r', 128)
+        #bottom = cm.get_cmap('Blues', 128)
+        #newcolors = np.vstack((top(np.linspace(0, 1, 128)), bottom(np.linspace(0, 1, 128))))
+        #newcmp = ListedColormap(newcolors, name='OrangeBlue')
+
+        
+        plt.title('タイトル')
+        plt.xlabel('X軸ラベル')
+        plt.ylabel('Y軸ラベル')
+
+        # X軸の開始～終わり
+        plt.xlim(0,31)
+        
+        # Y軸の開始～終わり
+        plt.ylim(0, 48)
+        
+        plt.imshow(rbm)
+
         plt.show()
         #plt.savefig()
 
