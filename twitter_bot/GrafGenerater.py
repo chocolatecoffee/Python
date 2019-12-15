@@ -9,12 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import numpy as np
-
-
 from matplotlib import rcParams
-
-
-
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -137,54 +132,72 @@ class GrafGenerater:
 
         return month_sensordata
 
-    def TEST_genGraf(self):
+    def TEST_genGraf(self,sensordata):
+        '''[summary]
+        '''        
+        
+        logging.debug('VV')
 
-        #https://matplotlib.org/3.1.1/tutorials/colors/colormap-manipulation.html#sphx-glr-tutorials-colors-colormap-manipulation-py
-
-        # 描画領域の確保だけ、グラフは何も描画されない
-        #111の意味は、1行目1列の1番目という意味で、subplot(1,1,1)でも同じ.
-        plt.subplot(111)
-
-        # (Xこ, Y)
-        rbm = np.random.randn(48, 30)
-        #logging.debug(rbm)
+        # logging.debug(len(sensordata))
 
         # https://qiita.com/yniji/items/3fac25c2ffa316990d0c
         # 日本語を利用する場合のFont指定 <個別に>
         #igfont = {'family': 'IPAexGothic'}
         # plt.title('title',**igfont)
 
+        # センサーデータを日にちごとに取りだす  2019/12/13
+        for key in sensordata.keys():
+            logging.debug(len(sensordata))
+            logging.debug(len(sensordata[key]))
+
         # 日本語を利用する場合のFont指定 <全体>
         rcParams['font.family'] = 'sans-serif'
         rcParams['font.sans-serif'] = ['IPAPGothic', 'VL PGothic']
 
-        #top = cm.get_cmap('Oranges_r', 128)
-        #bottom = cm.get_cmap('Blues', 128)
-        #newcolors = np.vstack((top(np.linspace(0, 1, 128)), bottom(np.linspace(0, 1, 128))))
-        #newcmp = ListedColormap(newcolors, name='OrangeBlue')
+        # 表の表示サイズを固定
+        plt.figure(figsize=(12, 5))
 
+        #https://matplotlib.org/3.1.1/tutorials/colors/colormap-manipulation.html#sphx-glr-tutorials-colors-colormap-manipulation-py
+        # 描画領域の確保だけ、グラフは何も描画されない
+        #111の意味は、1行目1列の1番目という意味で、subplot(1,1,1)でも同じ.
+        plt.subplot(111)
+
+        # (Xこ, Y)
+        rbm = np.random.randn(31,48)
+        #rbm = [[-10, 0, 10, 20, 30,40], [40, 30, 20, 10, 0,-10], [-10, 0, 0, 0,0, 40], [1, 2, 3, 4, 5,6], [-10, 40, 0, 0, 0,0]]
+        #logging.debug(rbm)
+
+        # 図の諸々設定
+        plt.imshow(rbm, cmap='RdBu_r',extent=(0, 48, 0, 31), vmin=-10, vmax=40,aspect=1)
         
-        plt.title('タイトル')
-        plt.xlabel('X軸ラベル')
-        plt.ylabel('Y軸ラベル')
+        plt.title('グラフタイトル')
+        plt.xlabel('X軸ラベル 時間')
+        # ax.set_xticklabels(farmers)
+        # ax.set_yticklabels(vegetables)
+        plt.ylabel('Y軸ラベル 年月日')
+        plt.legend('凡例')
 
         # X軸の開始～終わり
-        plt.xlim(0,31)
+        plt.xlim(0,48)
         
         # Y軸の開始～終わり
-        plt.ylim(0, 48)
+        plt.ylim(31, 0)
         
-        plt.imshow(rbm)
+        #カラーバー
+        plt.colorbar()
 
+        #表をファイルに保存
+        #plt.savefig('D://etc//Desktop//graf.png')
         plt.show()
-        #plt.savefig()
+
+        logging.debug('AA')
 
     def main(self):
         '''[summary]
         '''
-        #repacked_sensordata = self.repackSensordata(self)
-        # type(repacked_sensordata)
-        self.TEST_genGraf(self)
+        repacked_sensordata = self.repackSensordata(self)
+
+        self.TEST_genGraf(self,repacked_sensordata)
 
     def __init__(self):
         ''''''
