@@ -122,7 +122,7 @@ class GrafGenerater:
             # 一年分のデータを詰め込み
             month_sensorData = jsonobj
 
-        # 月は同じ
+        # 昨日は月末
         elif (yesterdayPttn == 'lastMonth'):
             # 昨日のセンサーデータリストを月Mapに詰め込み
             month_sensorData.setdefault(str(_yesterday.month),jsonobj[str(_yesterday.month)])
@@ -256,7 +256,7 @@ class GrafGenerater:
 
         #表をファイルに保存
         # 2019/12/31-CO2 濃度.png _jsonfile = './{}_SensorData.json'.format(_yesterday.year)
-        saveFileName = 'graf.png'
+        saveFileName = 'graph.png'
         
         # 今日の日付と昨日の日付を比較
         # 年は同じ
@@ -266,7 +266,7 @@ class GrafGenerater:
         if (yesterdayPttn == 'lastYear'):
             saveFileName = '{}'.format(_yesterday.year)
 
-        # 月は同じ
+        # 昨日は月末
         elif (yesterdayPttn == 'lastMonth'):
             saveFileName = '{}-{}'.format(_yesterday.year,_yesterday.month)
 
