@@ -22,7 +22,6 @@
   + *generate CO2 Graph*  
   + *Testing generate Temp Graph*
 
-## [LoadAndAddJSON](https://github.com/chocolatecoffee/Python/tree/master/LoadAndAddJSON)
 
 
 
