@@ -11,6 +11,9 @@
 センサーは[カスタム (CUSTOM) CO2モニター CO2-mini](https://www.amazon.co.jp/gp/product/B00I3XJ9LM/)を利用．  
 取得したセンサーデータは「LoadAndAddJSON」でJSONへ記録する．  
 
+### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/LoadAndAddJSON/LoadAndAddJSON.py)  
++ twitter_botから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，日別，各センサーデータ別でJSONに追記する．
+
 ### [GrafGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/GrafGenerater.py)
 
 + LoadAndAddJSONで作成したファイル（20XX_SensorData.json）から昨日，月別，年別でグラフを作成する．  
@@ -20,8 +23,6 @@
   + *Testing generate Temp Graph*
 
 ## [LoadAndAddJSON](https://github.com/chocolatecoffee/Python/tree/master/LoadAndAddJSON)
-### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/LoadAndAddJSON/LoadAndAddJSON.py)  
 
-*in the "twitter_bot"*
-+ twitter_botから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，時間別でJSONに追記する．
+
 
