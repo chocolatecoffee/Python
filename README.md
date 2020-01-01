@@ -21,7 +21,3 @@
 
   + *generate CO2 Graph*  
   + *Testing generate Temp Graph*
-
-
-
-
