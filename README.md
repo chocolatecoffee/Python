@@ -11,7 +11,7 @@
 センサーは[カスタム (CUSTOM) CO2モニター CO2-mini](https://www.amazon.co.jp/gp/product/B00I3XJ9LM/)を利用．  
 取得したセンサーデータは「LoadAndAddJSON」でJSONへ記録する．  
 
-### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/LoadAndAddJSON/LoadAndAddJSON.py)  
+### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/LoadAndAddJSON.py)  
 + twitter_botから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，日別，各センサーデータ別でJSONに追記する．
 
 ### [GrafGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/GrafGenerater.py)
