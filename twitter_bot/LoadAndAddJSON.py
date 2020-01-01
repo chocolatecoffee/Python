@@ -180,4 +180,3 @@ if __name__ == "__main__":
     myClass = LoadAndAddJSON
     myClass.main(myClass)
     logging.debug('AA')
-
