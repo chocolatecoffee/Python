@@ -20,4 +20,5 @@
 年始に一年分，月初めに一ヶ月分，日が変わる頃に昨日のデータを抽出し，それぞれ年別，月別，昨日分のグラフを作成する．
 
   + *generate CO2 Graph*  
+    + *Testing generate Colorbar,XLabel,YLabel*
   + *Testing generate Temp Graph*
