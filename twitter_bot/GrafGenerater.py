@@ -8,7 +8,7 @@ import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+
 import numpy as np
 from matplotlib import rcParams
 
