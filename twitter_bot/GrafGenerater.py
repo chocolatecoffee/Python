@@ -14,13 +14,9 @@ from matplotlib import rcParams
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-# ログレベルのフォーマット Log.txtファイルに出力
-logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
-
 # https://docs.python.org/ja/3/library/datetime.html#
 # _today = datetime.datetime.now().isoformat()
 # _today 2019-10-17T23:11:56.338690
-
 
 _today = datetime.datetime.now()
 #_today = datetime.date(2020,1,1)
@@ -46,6 +42,9 @@ class GrafGenerater:
 
         取り出されたデータでグラフを作成する．
     '''
+    
+    # ログレベルのフォーマット Log.txtファイルに出力
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     _jsonfile = './{}_SensorData.json'.format(_yesterday.year)
     '''昨日のセンサーデータの入ったjsonファイル名を指定 "2019_SensorData.json"と先頭に年が入る
@@ -194,7 +193,7 @@ class GrafGenerater:
         # グラフのタイトルと，保存ファイル名に年月日をつける
         # 昨日は昨年
         if (yesterdayPttn == 'lastYear'):
-            saveFileName = '{}'.format(tmp_year)
+            saveFileName = './{}-CO2濃度.png'.format(tmp_year)
             graphTitle = '{} CO2濃度　PPM'.format(tmp_year)
                         
             # 表の表示サイズを固定 figsize=(width, height)
@@ -202,12 +201,12 @@ class GrafGenerater:
 
         # 昨日は月末
         elif (yesterdayPttn == 'lastMonth'):
-            saveFileName = 'Monthly'
+            saveFileName = './Monthly-CO2濃度.png'
             graphTitle = '{}/{MM:02} CO2濃度　PPM'.format(tmp_year, MM=tmp_mo)
 
         # 今日の昨日は一日前
         elif (yesterdayPttn == 'yesterday'):
-            saveFileName = 'Daily'
+            saveFileName = './Daily-CO2濃度.png'
             graphTitle = '{}/{MM:02}/{DD:02} CO2濃度　PPM'.format(tmp_year, MM=tmp_mo, DD=tmp_today)
 
         # https://qiita.com/yniji/items/3fac25c2ffa316990d0c
@@ -256,7 +255,7 @@ class GrafGenerater:
         #グリッド
         ax.grid()
 
-        fig.savefig('D://etc//Desktop//'+ saveFileName + '-CO2濃度.png')
+        fig.savefig(saveFileName)
         #plt.show()
 
         logging.debug('AA')
