@@ -14,9 +14,9 @@ from matplotlib import rcParams
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-# https://docs.python.org/ja/3/library/datetime.html#
-# _today = datetime.datetime.now().isoformat()
-# _today 2019-10-17T23:11:56.338690
+    # https://docs.python.org/ja/3/library/datetime.html#
+    # _today = datetime.datetime.now().isoformat()
+    # _today 2019-10-17T23:11:56.338690
 
 _today = datetime.datetime.now()
 #_today = datetime.date(2020,1,1)
@@ -35,7 +35,7 @@ _tomorrow = _today + timedelta(days=1)
 # _today.minute
 # _today.weekday
 
-class GrafGenerater:
+class GraphGenerater:
     '''20XX_SensorData.jsonから昨日のセンサーデータを取り出す．\n
         昨日が月末であれば，先月分のセンサーデータ一ヶ月分を取り出す．\n
         昨日が年末であれば，一年分のセンサーデータを取り出す．\n
@@ -50,7 +50,7 @@ class GrafGenerater:
     '''昨日のセンサーデータの入ったjsonファイル名を指定 "2019_SensorData.json"と先頭に年が入る
     '''
 
-    def _isYesterday(self):
+    def _IsYesterday(self):
         '''
             昨日は去年か，先月か，同じ月の機能かの判定パターンを入れる．\n
         
@@ -81,7 +81,7 @@ class GrafGenerater:
 
         return _
 
-    def _load_JSON(self, jsonFile):
+    def _Load_JSON(self, jsonFile):
         '''_jsonfileをよみだす
         
         Args:
@@ -94,7 +94,7 @@ class GrafGenerater:
         logging.debug('VV')
         return json.load(open(jsonFile, 'r'))
 
-    def repackSensordata(self):
+    def RepackSensordata(self):
         '''_jsonfile(20XX_SensorData.json)から昨日のセンサーデータを取り出す．\n
         昨日が月末であれば，先月分のセンサーデータ一ヶ月分を取り出す．\n
         昨日が年末であれば，一年分のセンサーデータを取り出す．\n\n
@@ -106,7 +106,7 @@ class GrafGenerater:
         logging.debug('VV')
 
         try:
-            jsonobj = self._load_JSON(self, self._jsonfile)
+            jsonobj = self._Load_JSON(self, self._jsonfile)
             
         except FileNotFoundError:
             logging.debug('FileNotFound:' + self._jsonfile)
@@ -125,7 +125,7 @@ class GrafGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        yesterdayPttn = self._isYesterday(self)
+        yesterdayPttn = self._IsYesterday(self)
 
         # 昨日は昨年
         if (yesterdayPttn == 'lastYear'):
@@ -151,7 +151,7 @@ class GrafGenerater:
 
         return month_sensorData
 
-    def genGraf(self, sensorDataList):
+    def GenGraph(self, sensorDataList):
         '''[受け取ったデータでグラフを作成する．]
         
         Args:
@@ -181,7 +181,7 @@ class GrafGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        yesterdayPttn = self._isYesterday(self)
+        yesterdayPttn = self._IsYesterday(self)
 
         tmp_year =_yesterday.year
         tmp_mo = _yesterday.month
@@ -216,7 +216,7 @@ class GrafGenerater:
 
         # 日本語を利用する場合のFont指定 <全体>
         rcParams['font.family'] = 'sans-serif'
-        rcParams['font.sans-serif'] = ['IPAPGothic', 'VL PGothic']
+        rcParams['font.sans-serif'] = ['MigMix 2P','IPAPGothic']
 
         # 図の諸々設定
         #  気温
@@ -250,7 +250,6 @@ class GrafGenerater:
         # cax = divider.append_axes(position = 'right',size='2%', pad=0.1)
         cax = divider.append_axes(position = 'right',size='2%', pad='2%')
         plt.colorbar(im, cax=cax,orientation='vertical')
-        # plt.colorbar(im)
         
         #グリッド
         ax.grid()
@@ -264,16 +263,17 @@ class GrafGenerater:
         '''[summary]
         '''
 
-        sensordata = self.repackSensordata(self)
+        sensordata = self.RepackSensordata(self)
         #logging.debug(sensordata)
-        self.genGraf(self,sensordata)
+        self.GenGraph(self,sensordata)
 
     def __init__(self):
         ''''''
 
+
 if __name__ == "__main__":
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
-    myclass = GrafGenerater
+    myclass = GraphGenerater
     myclass.main(myclass)
     logging.debug('AA')
