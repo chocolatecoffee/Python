@@ -270,7 +270,6 @@ class GraphGenerater:
     def __init__(self):
         ''''''
 
-
 if __name__ == "__main__":
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
