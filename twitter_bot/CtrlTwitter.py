@@ -44,7 +44,7 @@ class CtrlTwitter:
         msg = msg + \
             '#TEMPERATURE {}℃'.format(rsp_sensor0_temp['temperature'])+'\n'
         msg = msg + \
-            '#TEMPERATURE {}℉'.format((rsp_sensor0_temp['temperature']*1.8)+32.0)
+            '#TEMPERATURE {}℉'.format(round((rsp_sensor0_temp['temperature']*1.8)+32.0,1))
 
         return msg
 
