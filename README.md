@@ -19,7 +19,7 @@
 ### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/LoadAndAddJSON.py)  
 + CtrlTwitterから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，日別，各センサーデータ別でJSONに追記する．
 
-### [GrafGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/GrafGenerater.py)
+### [GraphGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/GraphGenerater.py)
 
 + LoadAndAddJSONで作成したファイル（20XX_SensorData.json）から昨日，月別，年別でグラフを作成する．  
 年始に一年分，月初めに一ヶ月分，日が変わる頃に昨日のデータを抽出し，それぞれ年別，月別，昨日分のグラフを作成する．
