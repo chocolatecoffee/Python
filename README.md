@@ -4,15 +4,20 @@
 + calc MD5
 
 ## [twitter_bot](https://github.com/chocolatecoffee/Python/tree/master/twitter_bot)
-### [twitter_bot.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/twitter_bot.py)
 + [センサーのデータを取得するプログラム:CO2Meter](https://github.com/heinemml/CO2Meter)を利用．
 
-+ センサーデータをツイートする．  
-センサーは[カスタム (CUSTOM) CO2モニター CO2-mini](https://www.amazon.co.jp/gp/product/B00I3XJ9LM/)を利用．  
-取得したセンサーデータは「LoadAndAddJSON」でJSONへ記録する．  
+### [twitter_bot.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/twitter_bot.py)
++ Tweetするプログラム
+  + UpdateTweet・・・文字列だけでTweet
+  + UpdateTweetWithImg・・・文字列＋画像付でTweet
+
+### [CtrlTwitter.py](https://github.com/chocolatecoffee/Python/tree/master/twitter_bot/CtrlTwitter.py)
+
++ センサーデータをツイートする．
++ 取得したセンサーデータは「LoadAndAddJSON」でJSONへ記録する．
 
 ### [LoadAndAddJSON.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/LoadAndAddJSON.py)  
-+ twitter_botから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，日別，各センサーデータ別でJSONに追記する．
++ CtrlTwitterから渡されるセンサーデータを年ごとのファイル（20XX_SensorData.json）に月別，日別，各センサーデータ別でJSONに追記する．
 
 ### [GrafGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/twitter_bot/GrafGenerater.py)
 
