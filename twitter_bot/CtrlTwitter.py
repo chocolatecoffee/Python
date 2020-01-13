@@ -1,0 +1,104 @@
+#!/usr/local/bin python3.7
+# -*- coding: utf-8 -*-
+
+import logging
+import datetime
+import CO2Meter
+import LoadAndAddJSON
+import twitter_bot
+import time
+
+class CtrlTwitter:
+
+    # ログレベルのフォーマット Log.txtファイルに出力
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
+    
+    def GetSensor0_CO2(self, sensor):
+        '''センサーデータ CO2濃度を取得'''
+        logging.debug('VV')
+        # CO2濃度を取得(単位はppm)
+        return sensor.get_co2()
+
+    def GetSensor0_Temp(self, sensor):
+        '''センサーデータ 気温を取得'''
+        logging.debug('VV')
+        # 気温を取得
+        return sensor.get_temperature()
+
+    def GenSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2):
+        '''[Tweetメッセージを作成．CO2濃度と気温を書き込みメッセージに入れる．]
+        
+        Args:
+            rsp_sensor0_temp ([dict]): [気温]
+            rsp_sensor0_co2 ([dict]): [CO2濃度]
+        
+        Returns:
+            [str]: [Tweetメッセージ]
+        '''        
+
+        msg = ''
+        msg = msg + datetime.datetime.now().isoformat()
+        msg = msg + '\n'
+        msg = msg + \
+            '#CO2 {}ppm'.format(rsp_sensor0_co2['co2'])+'\n'
+        msg = msg + \
+            '#TEMPERATURE {}℃'.format(rsp_sensor0_temp['temperature'])+'\n'
+        msg = msg + \
+            '#TEMPERATURE {}℉'.format((rsp_sensor0_temp['temperature']*1.8)+32.0)
+
+        return msg
+
+    def UpdateTweetMsg(self, msg):
+        '''[Twitter_botでTweet]
+        
+        Args:
+            sendmsg ([str]): [Tweetメッセージ]
+        '''        
+        _ = twitter_bot.Twitter_bot
+        _.UpdateTweet(_, msg)
+
+    def WriteSensordataToJSON(self, temp, co2):
+        '''[センサーデータを記録]
+        
+        Args:
+            temp ([float]): [センサー　気温]
+            co2 ([float]): [センサー　CO2]
+        '''        
+        
+        sensordata = {'Temp': str(temp), 'CO2': str(co2), 'Barometer': 'XXXX', 'Humidity': 'XX'}
+        # {'Temp': '22.5', 'CO2': '450', 'Barometer': '1013', 'Humidity': '40'}
+
+        _ = LoadAndAddJSON.LoadAndAddJSON
+        _.add_SensorDataToJSON(_, sensordata)
+        
+    def main(self):
+        '''[summary]
+        '''        
+
+        logging.debug('VV')
+
+        # センサーへアクセス
+        sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
+        # ちょっと待つ
+        time.sleep(10)
+        rsp_sensor0_co2 = self.GetSensor0_CO2(self, sensor0)
+        rsp_sensor0_temp = self.GetSensor0_Temp(self, sensor0)
+        sendmsg = self.GenSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2)
+
+        # センセーのデータをTweet
+        self.UpdateTweetMsg(self, sendmsg)
+
+        #センサーデータを記録
+        self.WriteSensordataToJSON(self,rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'])
+
+        logging.debug('AA')
+
+    def __init__(self):
+        ''''''
+
+if __name__ == '__main__':
+    # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
+    logging.debug('VV')
+    myclass = CtrlTwitter
+    myclass.main(myclass)
+    logging.debug('AA')
