@@ -8,8 +8,8 @@ import logging
 import twitter
 
 class Twitter_bot:
-    '''twitter_bot autosend"tweet"\n
-    "./twitter_token.json"にtwitterのToken情報を記載しておく必要があります．
+    '''twitter_bot autosend'tweet'\n
+    './twitter_token.json'にtwitterのToken情報を記載しておく必要があります．
 
     ---
     + twitter lib:https://pypi.org/project/twitter/
@@ -18,7 +18,7 @@ class Twitter_bot:
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
-    _jsondata = "./twitter_token.json"
+    _jsondata = './twitter_token.json'
     '''twitter tokenを記述しておく'''
 
     def _LoadJSON(self):
@@ -54,23 +54,23 @@ class Twitter_bot:
         obj_twitter = twitter.Twitter(auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
         
         if img != None:
+            # 画像ファイルのパラメータがある場合 画像付ｓでTweet
             obj_twitter_media = twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
 
-            with open(img, "rb") as imagefile:
+            with open(img, 'rb') as imagefile:
                 uploard_img = imagefile.read()
 
-            img_id = obj_twitter_media.media.upload(media=uploard_img)["media_id_string"]
+            img_id = obj_twitter_media.media.upload(media=uploard_img)['media_id_string']
 
             # Twitterに投稿
-            rst = obj_twitter.statuses.update(status=msg, media_ids=",".join([img_id]))
+            rst = obj_twitter.statuses.update(status=msg, media_ids=','.join([img_id]))
 
         else:
-            
+            # 画像ファイルのパラメータがない場合 通常のTweet
             # Twitterに投稿
             rst = obj_twitter.statuses.update(status=msg)
 
         logging.debug(rst)
-
         logging.debug('AA')
 
     def main(self):
@@ -79,13 +79,13 @@ class Twitter_bot:
 
         logging.debug('VV')
         #self.UpdateTweetWithImg(self,'testmsg','./testimg.gif')
-        self.UpdateTweet(self,'Noimage testmsg')
+        #self.UpdateTweet(self,'Noimage testmsg')
         logging.debug('AA')
 
     def __init__(self):
         ''''''
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
     myclass = Twitter_bot
