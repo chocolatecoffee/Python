@@ -4,6 +4,7 @@ from datetime import timedelta
 import json
 import logging
 import os
+import twitter_bot
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -230,7 +231,6 @@ class GraphGenerater:
 
         # CO2
         im = ax.imshow(sensorCO2List, cmap='RdBu_r', extent=(0, 48, len(sensorCO2List), 0),  vmin=300, vmax=1600)
-
         ax.set_title(graphTitle)
         ax.set_xlabel('時間 (一時間データをに2回取得なので48回　要調整)')
         # ax.set_xticklabels(farmers)
@@ -258,6 +258,16 @@ class GraphGenerater:
         #plt.show()
 
         logging.debug('AA')
+        return saveFileName
+
+    def UpdateTweetWithImage(self, msg, img):
+        '''[Twitter_botでTweet]
+        
+        Args:
+            sendmsg ([str]): [Tweetメッセージ]
+        '''        
+        _ = twitter_bot.Twitter_bot
+        _.UpdateTweetWithImg(_, msg,img)
 
     def main(self):
         '''[summary]
@@ -265,7 +275,10 @@ class GraphGenerater:
 
         sensordata = self.RepackSensordata(self)
         #logging.debug(sensordata)
-        self.GenGraph(self,sensordata)
+        savefile = self.GenGraph(self, sensordata)
+        
+        # センセーのデータをTweet
+        self.UpdateTweetWithImage(self, '#CO2 concentration',savefile)
 
     def __init__(self):
         ''''''
