@@ -1,9 +1,9 @@
 {
-    "python.pythonPath": "C:\\Bin\\Python38\\python.exe",
-    "editor.wordWrapColumn": 500,
+    "python.pythonPath": "C:\\Bin\\Python37\\python.exe",
+    "editor.wordWrapColumn": 700,
     "debug.console.wordWrap": false,
     "python.formatting.autopep8Args": [
         "\"--ignore\", \"E70\"",
-        "\"--max-line-length\", \"500\""
+        "\"--max-line-length\", \"700\""
     ]
 }
