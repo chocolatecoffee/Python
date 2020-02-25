@@ -25,43 +25,6 @@ class LoadAndAddJSON:
     '''新規作成用のJSON「空」フォーマット
     '''
 
-    ''' 出力されるJSONデータの形式を変更したためコメントアウト 20200101'''
-    #def add_SensorDataToJSON(self ,sensordata):
-    #    '''Args(センサーのデータ)を_jsonfileへ追記する．月別に毎日毎時のデータを追記する．\n
-    #    _jsonfileの形式：\n
-    #    {"01": [{"dd": "01","H": "01","mm": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
-    #   対応する内容\n
-    #    {"月": [{"日": "01","時": "01","分": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},・・・]}\n
-    #    
-    #    Args:
-    #        sensordata ([Dict]):class twitter_botから送られたセンサーのデータ\n
-    #        例):{"Temp": "22.5", "CO2": "450", "Barometer": "1013", "Humidity": "40"}
-    #
-    #    Returns:no return
-    #    '''
-    #
-    #    logging.debug('VV')
-    #
-    #    # print(today.year, "年", today.month, "月", today.day, "日", today.hour,"時", today.minute, "分", today.second, "秒", today.microsecond, "マイクロ秒")
-    #
-    #    # json 階層の確認 月の階層があるかの判定 新規の場合に　_today.monthで階層を作成する。
-    #    
-    #    # "01": [{ "dd": "01","H": "01","mm": "00","Temp": "22.5","CO2": "450","Barometer": "1013","Humidity": "40"},
-    #    add_info ={"dd": str(self._today.day), "HH": str(self._today.hour), "mm":str(self._today.minute),"Temp":sensordata["Temp"],"CO2":sensordata["CO2"],"Barometer":sensordata["Barometer"],"Humidity":sensordata["Humidity"]}
-    #    
-    #    jsonobj=self._load_JSON(self,self._jsonfile)
-    #
-    #    if str(self._today.month) in jsonobj.keys():
-    #        jsonobj[str(self._today.month)].append(add_info)
-    #
-    #    else:
-    #        jsonobj.setdefault(str(self._today.month), [])
-    #        jsonobj[str(self._today.month)].append(add_info)
-    #        
-    #    json.dump(jsonobj, open(self._jsonfile, 'w'), indent=4)
-    #
-    #    logging.debug('AA')
-
     def add_SensorDataToJSON(self, sensordata):
         '''[sensordataを_jsonfileへ追記する．月別，日別，CO2濃度別，気温別，気圧別，湿度別にデータを追記する．
 
