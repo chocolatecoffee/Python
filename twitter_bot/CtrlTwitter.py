@@ -6,6 +6,7 @@ import datetime
 import CO2Meter
 import LoadAndAddJSON
 import twitter_bot
+import SensorBME280
 import time
 
 class CtrlTwitter:
@@ -25,12 +26,15 @@ class CtrlTwitter:
         # 気温を取得
         return sensor.get_temperature()
 
-    def GenSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2):
+    def GenSendMsg(self, temp, co2, pressure, hum, rsp_sensor1_temp):
         '''[Tweetメッセージを作成．CO2濃度と気温を書き込みメッセージに入れる．]
         
         Args:
-            rsp_sensor0_temp ([dict]): [気温]
-            rsp_sensor0_co2 ([dict]): [CO2濃度]
+            temp (float): 気温
+            co2 (float): CO2濃度
+            pressure (float): 気圧
+            hum (float): 湿度
+            sensor1_temp (float): 気温
         
         Returns:
             [str]: [Tweetメッセージ]
@@ -40,11 +44,17 @@ class CtrlTwitter:
         msg = msg + datetime.datetime.now().isoformat()
         msg = msg + '\n'
         msg = msg + \
-            '#CO2 {}ppm'.format(rsp_sensor0_co2['co2'])+'\n'
+            '#CO2 {}ppm'.format(co2)+'\n'
         msg = msg + \
-            '#TEMPERATURE {}℃'.format(rsp_sensor0_temp['temperature'])+'\n'
+            '#TEMPERATURE {}℃'.format(temp)+'\n'
         msg = msg + \
-            '#TEMPERATURE {}℉'.format(round((rsp_sensor0_temp['temperature']*1.8)+32.0,1))
+            '#TEMPERATURE {}℉'.format(round((temp * 1.8) + 32.0, 1)) + '\n'
+        msg = msg + \
+            '#PRESSURE {}hpa'.format(pressure) + '\n'
+        msg = msg + \
+            '#HUMIDITY {}%'.format(hum) + '\n'
+        msg = msg + \
+            'Sensor_2nd TEMPERATURE {}℃'.format(rsp_sensor1_temp) + '\n'
 
         return msg
 
@@ -57,22 +67,24 @@ class CtrlTwitter:
         _ = twitter_bot.Twitter_bot
         _.UpdateTweet(_, msg)
 
-    def WriteSensordataToJSON(self, temp, co2):
+    def WriteSensordataToJSON(self, temp, co2, pressure, hum):
         '''[センサーデータを記録]
         
         Args:
-            temp ([float]): [センサー　気温]
-            co2 ([float]): [センサー　CO2]
+            temp (float): 気温
+            co2 (float): CO2濃度
+            pressure (float): 気圧
+            hum (float): 湿度
         '''        
         
-        sensordata = {'Temp': str(temp), 'CO2': str(co2), 'Barometer': 'XXXX', 'Humidity': 'XX'}
+        sensordata = {'Temp': str(temp), 'CO2': str(co2), 'Barometer': str(pressure), 'Humidity': str(hum)}
         # {'Temp': '22.5', 'CO2': '450', 'Barometer': '1013', 'Humidity': '40'}
 
         _ = LoadAndAddJSON.LoadAndAddJSON
         _.add_SensorDataToJSON(_, sensordata)
         
     def main(self):
-        '''[summary]
+        '''
         '''        
 
         logging.debug('VV')
@@ -83,13 +95,17 @@ class CtrlTwitter:
         time.sleep(10)
         rsp_sensor0_co2 = self.GetSensor0_CO2(self, sensor0)
         rsp_sensor0_temp = self.GetSensor0_Temp(self, sensor0)
-        sendmsg = self.GenSendMsg(self, rsp_sensor0_temp, rsp_sensor0_co2)
+
+        sensor1 = SensorBME280.bme280
+        rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp = sensor1.Main(sensor1)
+
+        sendmsg = self.GenSendMsg(self, rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
 
         # センセーのデータをTweet
         self.UpdateTweetMsg(self, sendmsg)
 
         #センサーデータを記録
-        self.WriteSensordataToJSON(self,rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'])
+        self.WriteSensordataToJSON(self, rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum)
 
         logging.debug('AA')
 
