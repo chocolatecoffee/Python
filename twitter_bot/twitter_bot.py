@@ -15,6 +15,7 @@ class Twitter_bot:
     + twitter lib:https://pypi.org/project/twitter/
 
     '''
+    
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 

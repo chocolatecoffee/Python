@@ -232,7 +232,7 @@ class GraphGenerater:
         # CO2
         im = ax.imshow(sensorCO2List, cmap='RdBu_r', extent=(0, 48, len(sensorCO2List), 0),  vmin=300, vmax=1600)
         ax.set_title(graphTitle)
-        ax.set_xlabel('時間 (一時間データをに2回取得なので48回　要調整)')
+        ax.set_xlabel('時間 (一時間にデータを2回取得なので48回　要調整)')
         # ax.set_xticklabels(farmers)
         # ax.set_yticklabels(vegetables)
         ax.set_ylabel('日')
