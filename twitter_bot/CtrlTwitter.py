@@ -41,20 +41,15 @@ class CtrlTwitter:
         '''        
 
         msg = ''
-        msg = msg + datetime.datetime.now().isoformat()
-        msg = msg + '\n'
-        msg = msg + \
-            '#CO2 {}ppm'.format(co2)+'\n'
-        msg = msg + \
-            '#TEMPERATURE {}℃'.format(temp)+'\n'
-        msg = msg + \
-            '#TEMPERATURE {}℉'.format(round((temp * 1.8) + 32.0, 1)) + '\n'
-        msg = msg + \
-            '#PRESSURE {}hpa'.format(pressure) + '\n'
-        msg = msg + \
-            '#HUMIDITY {}%'.format(hum) + '\n'
-        msg = msg + \
-            'Sensor_2nd TEMPERATURE {}℃'.format(rsp_sensor1_temp) + '\n'
+        msg = msg + datetime.datetime.now().isoformat()+ '\n'
+        msg = msg + '\n' + '--- CO2Meter ---'+'\n'
+        msg = msg + '#CO2 {}ppm'.format(co2)+'\n'
+        msg = msg + '#TEMPERATURE {}℃'.format(temp)+'\n'
+        msg = msg + '#TEMPERATURE {}℉'.format(round((temp * 1.8) + 32.0, 1)) + '\n'
+        msg = msg + '\n' + '--- HiLetgo BME280 ---' + '\n'
+        msg = msg + '#PRESSURE {}hpa'.format(pressure) + '\n'
+        msg = msg + '#HUMIDITY {}%'.format(hum) + '\n'
+        msg = msg + '#TEMPERATURE {}℃'.format(rsp_sensor1_temp) + '\n'
 
         return msg
 
