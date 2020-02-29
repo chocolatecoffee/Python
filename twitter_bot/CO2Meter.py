@@ -137,4 +137,4 @@ class CO2Meter:
         # result.update(self.get_temperature())
         # result.update(self.get_humidity())
 
-        return self.get_co2(self), self.get_temperature(self)
+        return self.get_co2(), self.get_temperature()

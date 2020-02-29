@@ -81,7 +81,7 @@ class CtrlTwitter:
         sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
         # ちょっと待つ
         time.sleep(10)
-        rsp_sensor0_co2, rsp_sensor0_temp = sensor0.get_data(sensor0)
+        rsp_sensor0_co2, rsp_sensor0_temp = sensor0.get_data()
 
         # Tweetメッセージの生成
         sendmsg = self.GenSendMsg(self, rsp_sensor0_co2['co2'], rsp_sensor0_temp['temperature'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
