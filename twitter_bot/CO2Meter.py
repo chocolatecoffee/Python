@@ -45,8 +45,7 @@ class CO2Meter:
             set_report_str = "\x00" + "".join(chr(e) for e in self._key)
             fcntl.ioctl(self._file, HIDIOCSFEATURE_9, set_report_str)
 
-        thread = threading.Thread(
-            target=_co2_worker, args=(weakref.ref(self),))
+        thread = threading.Thread(target=_co2_worker, args=(weakref.ref(self),))
         thread.daemon = True
         thread.start()
 
@@ -70,11 +69,9 @@ class CO2Meter:
                     if operation == CO2METER_CO2:
                         self._callback(sensor=operation, value=val)
                     elif operation == CO2METER_TEMP:
-                        self._callback(sensor=operation,
-                                       value=round(val / 16.0 - 273.1, 1))
+                        self._callback(sensor=operation, value=round(val / 16.0 - 273.1, 1))
                     elif operation == CO2METER_HUM:
-                        self._callback(sensor=operation,
-                                       value=round(val / 100.0, 1))
+                        self._callback(sensor=operation, value=round(val / 100.0, 1))
         except:
             self._running = False
 
@@ -135,9 +132,9 @@ class CO2Meter:
         return result
 
     def get_data(self):
-        result = {}
-        result.update(self.get_co2())
-        result.update(self.get_temperature())
-        result.update(self.get_humidity())
+        # result = {}
+        # result.update(self.get_co2())
+        # result.update(self.get_temperature())
+        # result.update(self.get_humidity())
 
-        return result
+        return self.get_co2(self), self.get_temperature(self)
