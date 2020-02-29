@@ -13,25 +13,13 @@ class CtrlTwitter:
 
     # ログレベルのフォーマット Log.txtファイルに出力
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
-    
-    def GetSensor0_CO2(self, sensor):
-        '''センサーデータ CO2濃度を取得'''
-        logging.debug('VV')
-        # CO2濃度を取得(単位はppm)
-        return sensor.get_co2()
 
-    def GetSensor0_Temp(self, sensor):
-        '''センサーデータ 気温を取得'''
-        logging.debug('VV')
-        # 気温を取得
-        return sensor.get_temperature()
-
-    def GenSendMsg(self, temp, co2, pressure, hum, rsp_sensor1_temp):
+    def GenSendMsg(self, co2, temp, pressure, hum, rsp_sensor1_temp):
         '''[Tweetメッセージを作成．CO2濃度と気温を書き込みメッセージに入れる．]
         
         Args:
-            temp (float): 気温
             co2 (float): CO2濃度
+            temp (float): 気温
             pressure (float): 気圧
             hum (float): 湿度
             sensor1_temp (float): 気温
@@ -80,21 +68,23 @@ class CtrlTwitter:
         
     def main(self):
         '''
+            センサーデータの取得 ～ Tweet ～ センサーデータの記録を行うメインメソッド．
+            Sensor：CO2Meter,BME280
         '''        
-
         logging.debug('VV')
 
-        # センサーへアクセス
-        sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
-        # ちょっと待つ
-        time.sleep(10)
-        rsp_sensor0_co2 = self.GetSensor0_CO2(self, sensor0)
-        rsp_sensor0_temp = self.GetSensor0_Temp(self, sensor0)
-
+        # SensorBME280センサーへアクセス・データの取得
         sensor1 = SensorBME280.bme280
         rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp = sensor1.Main(sensor1)
 
-        sendmsg = self.GenSendMsg(self, rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
+        # CO2センサーへアクセス・データの取得
+        sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
+        # ちょっと待つ
+        time.sleep(10)
+        rsp_sensor0_co2, rsp_sensor0_temp = sensor0.get_data(sensor0)
+
+        # Tweetメッセージの生成
+        sendmsg = self.GenSendMsg(self, rsp_sensor0_co2['co2'], rsp_sensor0_temp['temperature'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
 
         # センセーのデータをTweet
         self.UpdateTweetMsg(self, sendmsg)
