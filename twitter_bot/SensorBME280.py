@@ -8,7 +8,6 @@ import smbus2 as SMBus
 import time
 import logging
 
-
 class bme280:
 
     bus_number = 1
@@ -23,16 +22,14 @@ class bme280:
     t_fine = 0.0
 
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',
-                        format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
+    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w', format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def writeReg(self, reg_address, data):
         
         self.bus.write_byte_data(self.i2c_address, reg_address, data)
-        
 
     def get_calib_param(self):
-        
+
         calib = []
 
         for i in range(0x88, 0x88+24):
@@ -73,25 +70,6 @@ class bme280:
         for i in range(0, 6):
             if self.digH[i] & 0x8000:
                 self.digH[i] = (-self.digH[i] ^ 0xFFFF) + 1
-
-        
-
-    def readData(self):
-        
-        data = []
-        for i in range(0xF7, 0xF7 + 8):
-            data.append(self.bus.read_byte_data(self.i2c_address, i))
-
-        pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
-        temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
-        hum_raw = (data[6] << 8) | data[7]
-
-        pressure = self.compensate_P(self, pres_raw)
-        hum = self.compensate_H(self,hum_raw)
-        temp = self.compensate_T(self,temp_raw)
-        
-
-        return round(pressure, 2),round(hum, 2),round(temp, 2)
 
     def compensate_P(self, pres_raw):
         
@@ -176,6 +154,21 @@ class bme280:
         self.writeReg(self, 0xF4, ctrl_meas_reg)
         self.writeReg(self, 0xF5, config_reg)
         
+    def readData(self):
+        
+        data = []
+        for i in range(0xF7, 0xF7 + 8):
+            data.append(self.bus.read_byte_data(self.i2c_address, i))
+
+        pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
+        temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
+        hum_raw = (data[6] << 8) | data[7]
+
+        pressure = self.compensate_P(self, pres_raw)
+        hum = self.compensate_H(self,hum_raw)
+        temp = self.compensate_T(self,temp_raw)
+        
+        return round(pressure, 2), round(hum, 2), round(temp, 2)
 
     def Main(self):
         self.setup(self)
