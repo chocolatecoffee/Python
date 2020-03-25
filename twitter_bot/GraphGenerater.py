@@ -248,7 +248,7 @@ class GraphGenerater:
         #カラーバー colorbarの調整方法を調べてたらいつのまにか2時間経ってた 難しすぎでしょ 
         divider = make_axes_locatable(ax)
         # cax = divider.append_axes(position = 'right',size='2%', pad=0.1)
-        cax = divider.append_axes(position = 'right',size='2%', pad='2%')
+        cax = divider.append_axes(position = 'right',size='2%', pad='5%')
         plt.colorbar(im, cax=cax,orientation='vertical')
         
         #グリッド
@@ -278,7 +278,7 @@ class GraphGenerater:
         savefile = self.GenGraph(self, sensordata)
         
         # センセーのデータをTweet
-        self.UpdateTweetWithImage(self, '#CO2 concentration',savefile)
+        #self.UpdateTweetWithImage(self, '#CO2 concentration',savefile)
 
     def __init__(self):
         ''''''
