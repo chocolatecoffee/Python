@@ -19,10 +19,6 @@ import threading
 
 import json
 import logging
-import time
-import threading
-
-import concurrent.futures as confu
 
 
 class UdpServer:
@@ -65,25 +61,7 @@ class UdpServer:
         # コネクションのクローズ
         client.close()
 
-    def Order(self, order):
-        print('{}うどんを作ります。うどんを茹でます。\n'.format(order))
-        time.sleep(3)
-        print('あがりました。\n')
-
-    def RequestOrders(self, orders):
-        with confu.ThreadPoolExecutor(max_workers=4, thread_name_prefix="thread") as executor:
-            # executor.map(self.boil_udon, range(10))
-            for order in orders:
-                executor.submit(self.Order, self, order)
-
-        executor.shutdown
-
     def Main(self):
-
-        orders = {'わかめ', 'コロッケ', 'カレー', '山菜',
-                  'おあげ', '天ぷら', '牛すき', '鴨', 'そば', '具なし'}
-
-        self.RequestOrders(self, orders)
 
         #　クライアントの受付番号の初期化
         clientNo = 0
