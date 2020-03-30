@@ -5,7 +5,6 @@ import threading
 import json
 import logging
 
-
 class TCPServer:
 
     # ポート番号
@@ -30,11 +29,18 @@ class TCPServer:
         # Json読み取り
         return json.load(open(self._jsondata, 'r'))
 
-    def Request(self):
-        ''''''
+    def _DumpJSON(self):
+        '''[_LoadJSONで読み込んだ_jsondataをbyte文字列（utf-8）で返す]
+        
+        Returns:
+            [byte]: [_jsondataをbyte文字列（utf-8）で返す]
+        '''
+        logging.debug('VV')
+        
+        return json.dumps(self._LoadJSON(self)).encode('utf-8')
 
-    def Main(self):
-        ''''''
+    def ExeServer(self,strjson):
+        '''[summary]'''
 
         #　クライアントの受付番号の初期化
         clientNo = 0
@@ -44,7 +50,6 @@ class TCPServer:
 
             # アドレスの設定
             server.bind((self._SERVER_IP, self._PORT))
-
             print(str(datetime.datetime.now()), '  Waiting...')
 
             # 接続の待ち受け
@@ -60,25 +65,27 @@ class TCPServer:
                 clientNo += 1
 
                 # メッセージの作成
-                msg = str(datetime.datetime.now())
-
-                print(msg, 'Connection Request(', clientNo, '):', client)
+                print(str(datetime.datetime.now()), 'Connection Request(', clientNo, '):', str(addr))
 
                 # クライアントより受信
                 data = client.recv(self._BUFSIZE)
 
                 # 受信内容の出力
-                print('(', clientNo, ')', data.decode('UTF-8'))
+                print('(', clientNo, ')', data.decode('utf-8'))
 
                 # メッセージの送信
-                client.sendall(b'HI')
+                client.sendall(strjson)
 
                 # コネクションのクローズ
                 client.close()
 
+    def Main(self):
+        ''''''
+        
+        self.ExeServer(self,self._DumpJSON(self))
+
     def __init__(self):
         ''''''
-
 
 if __name__ == '__main__':
 
