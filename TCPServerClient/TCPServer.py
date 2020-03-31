@@ -94,7 +94,8 @@ class TCPServer:
         '''
 
         logging.debug('__new__')
-        return super().__new__(cls)
+        self = super().__new__(cls)
+        return self
 
     def __init__(self):
         '''[summary]
