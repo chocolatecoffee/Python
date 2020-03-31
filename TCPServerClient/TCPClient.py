@@ -3,6 +3,7 @@ import datetime
 import ast
 import logging
 
+
 class TcpClient:
 
     # ポート番号
@@ -20,7 +21,7 @@ class TcpClient:
 
     def RequestServer(self):
         '''[_SERVER_IPへリクエストする．]
-        '''        
+        '''
 
         print('The client started at', str(datetime.datetime.now()))
 
@@ -33,15 +34,34 @@ class TcpClient:
 
     def Main(self):
         ''''''
-        
-        self.RequestServer(self)
+        self.RequestServer()
+
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        return super().__new__(cls)
 
     def __init__(self):
-        ''''''
+        '''[summary]
+        '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
+        '''
+        logging.debug('__del__')
+
 
 if __name__ == '__main__':
 
     logging.debug('VV')
-    myclass = TcpClient
-    myclass.Main(myclass)
+    myclass = TcpClient()
+    myclass.Main()
+    del myclass
     logging.debug('AA')

@@ -5,6 +5,7 @@ import threading
 import json
 import logging
 
+
 class TCPServer:
 
     # ポート番号
@@ -31,15 +32,15 @@ class TCPServer:
 
     def _DumpJSON(self):
         '''[_LoadJSONで読み込んだ_jsondataをbyte文字列（utf-8）で返す]
-        
+
         Returns:
             [byte]: [_jsondataをbyte文字列（utf-8）で返す]
         '''
         logging.debug('VV')
-        
-        return json.dumps(self._LoadJSON(self)).encode('utf-8')
 
-    def ExeServer(self,strjson):
+        return json.dumps(self._LoadJSON()).encode('utf-8')
+
+    def ExeServer(self, strjson):
         '''[summary]'''
 
         #　クライアントの受付番号の初期化
@@ -65,7 +66,8 @@ class TCPServer:
                 clientNo += 1
 
                 # メッセージの作成
-                print(str(datetime.datetime.now()), 'Connection Request(', clientNo, '):', str(addr))
+                print(str(datetime.datetime.now()),
+                      'Connection Request(', clientNo, '):', str(addr))
 
                 # クライアントより受信
                 data = client.recv(self._BUFSIZE)
@@ -81,15 +83,35 @@ class TCPServer:
 
     def Main(self):
         ''''''
-        
-        self.ExeServer(self,self._DumpJSON(self))
+
+        self.ExeServer(self._DumpJSON())
+
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        return super().__new__(cls)
 
     def __init__(self):
-        ''''''
+        '''[summary]
+        '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
+        '''
+        logging.debug('__del__')
+
 
 if __name__ == '__main__':
 
     logging.debug('VV')
-    myclass = TCPServer
-    myclass.Main(myclass)
+    myclass = TCPServer()
+    myclass.Main()
+    del myclass
     logging.debug('AA')
