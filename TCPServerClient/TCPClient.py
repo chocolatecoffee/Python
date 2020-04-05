@@ -1,7 +1,9 @@
+from os import system
 import socket
 import datetime
 import ast
 import logging
+import sys
 
 
 class TcpClient:
@@ -16,21 +18,27 @@ class TcpClient:
     _SERVER_IP = '192.168.100.2'
 
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',
+    logging.basicConfig(level=logging.DEBUG, filename='./Log_Client.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def RequestServer(self):
         '''[_SERVER_IPへリクエストする．]
         '''
+        dictobj = []
 
-        print('The client started at', str(datetime.datetime.now()))
+        print('Client started at', str(datetime.datetime.now()))
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
-            server.connect((self._SERVER_IP, self._PORT))
-            server.sendall(b'Hello TCP')
-            dictobj = ast.literal_eval(server.recv(self._BUFSIZE).decode())
-            print(type(dictobj))
-            print(dictobj['TEST_03'])
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+
+                server.connect((self._SERVER_IP, self._PORT))
+                server.sendall(b'Hello TCP')
+                dictobj = ast.literal_eval(server.recv(self._BUFSIZE).decode())
+
+        except Exception as ex:
+            logging.debug(ex.with_traceback)
+
+        return dictobj
 
     def Main(self):
         ''''''
