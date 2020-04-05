@@ -20,7 +20,7 @@ class TCPServer:
     _jsondata = './Test.json'
 
     # logfile
-    logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',
+    logging.basicConfig(level=logging.DEBUG, filename='./Log_Server.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def _LoadJSON(self):
@@ -40,8 +40,10 @@ class TCPServer:
 
         return json.dumps(self._LoadJSON()).encode('utf-8')
 
-    def ExeServer(self, strjson):
+    def ExeServer(self):
         '''[summary]'''
+
+        strjson = self._DumpJSON()
 
         #　クライアントの受付番号の初期化
         clientNo = 0
@@ -49,6 +51,8 @@ class TCPServer:
         # ソケットの作成
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
 
+            # ブロッキング
+            server.setblocking(True)
             # アドレスの設定
             server.bind((self._SERVER_IP, self._PORT))
             print(str(datetime.datetime.now()), '  Waiting...')
@@ -70,10 +74,9 @@ class TCPServer:
                       'Connection Request(', clientNo, '):', str(addr))
 
                 # クライアントより受信
-                data = client.recv(self._BUFSIZE)
-
                 # 受信内容の出力
-                print('(', clientNo, ')', data.decode('utf-8'))
+                print('(', clientNo, ')', client.recv(
+                    self._BUFSIZE).decode('utf-8'))
 
                 # メッセージの送信
                 client.sendall(strjson)
@@ -84,7 +87,7 @@ class TCPServer:
     def Main(self):
         ''''''
 
-        self.ExeServer(self._DumpJSON())
+        self.ExeServer()
 
     def __new__(cls):
         '''[summary]
