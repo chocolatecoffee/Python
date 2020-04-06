@@ -10,7 +10,7 @@ import xmlrpc.client as client
 class rpc_client:
 
     # ポート番号
-    _PORT = 50000
+    _PORT = '50000'
 
     # 受信バッファの大きさ
     _BUFSIZE = 4096
@@ -22,18 +22,36 @@ class rpc_client:
     logging.basicConfig(level=logging.DEBUG, filename='./Log_Client.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
-    def Request(self):
-        srv = client.ServerProxy('http://192.168.100.2:50000')
+    def Request(self, srv):
+        '''[summary]
 
-        # print(srv.system.listMethods())
+        Returns:
+            [type]: [description]
+        '''
 
-        srv.view('This is Me')
+        print(srv.getjson())
 
-        print(srv.res('Respons'))
+    def SendMsg(self, srv):
+        '''[summary]
+
+        Args:
+            srv ([type]): [description]
+        '''
+
+        print(srv.sendmsg('statement'))
 
     def Main(self):
-        ''''''
-        self.Request()
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        srv = client.ServerProxy(
+            'http://' + self._SERVER_IP + ':' + self._PORT)
+
+        self.Request(srv)
+        self.SendMsg(srv)
 
     def __new__(cls):
         '''[summary]
