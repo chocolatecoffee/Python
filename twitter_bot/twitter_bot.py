@@ -15,7 +15,6 @@ class Twitter_bot:
     + twitter lib:https://pypi.org/project/twitter/
 
     '''
-    
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
@@ -37,7 +36,7 @@ class Twitter_bot:
             msg ([str]): [tweetmessage]
         '''
         logging.debug('VV')
-        self.UpdateTweetWithImg(self,msg,None)
+        self.UpdateTweetWithImg(msg,None)
         logging.debug('AA')
 
     def UpdateTweetWithImg(self, msg, img):
@@ -50,7 +49,7 @@ class Twitter_bot:
 
         logging.debug('VV')
 
-        obj_json = self._LoadJSON(self)
+        obj_json = self._LoadJSON()
 
         obj_twitter = twitter.Twitter(auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
         
@@ -83,12 +82,31 @@ class Twitter_bot:
         #self.UpdateTweet(self,'Noimage testmsg')
         logging.debug('AA')
 
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        self = super().__new__(cls)
+        return self
+
     def __init__(self):
-        ''''''
+        '''[summary]
+        '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
+        '''
+        logging.debug('__del__')
 
 if __name__ == '__main__':
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
-    myclass = Twitter_bot
-    myclass.main(myclass)
+    myclass = Twitter_bot()
+    myclass.main()
     logging.debug('AA')

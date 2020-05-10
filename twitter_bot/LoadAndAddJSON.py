@@ -61,7 +61,7 @@ class LoadAndAddJSON:
         #today = "1"
 
         # json 階層の確認 月の階層があるかの判定 新規の場合に　_today.monthで階層を作成する。
-        jsonobj = self._load_JSON(self, self._jsonfile)
+        jsonobj = self._load_JSON(self._jsonfile)
         
         # json内に今月の文字列が存在する．
         if mo in jsonobj.keys():
@@ -127,19 +127,35 @@ class LoadAndAddJSON:
 
         logging.debug('VV')
 
-        self.add_SensorDataToJSON(self, Test_sensordata)
+        self.add_SensorDataToJSON(Test_sensordata)
         
         logging.debug('AA')
 
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        self = super().__new__(cls)
+        return self
+
     def __init__(self):
+        '''[summary]
         '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
         '''
-        logging.debug('VV')
-        logging.debug('AA')
+        logging.debug('__del__')
 
 if __name__ == "__main__":
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される。
     logging.debug('VV')
-    myClass = LoadAndAddJSON
-    myClass.main(myClass)
+    myClass = LoadAndAddJSON()
+    myClass.main()
     logging.debug('AA')

@@ -47,8 +47,8 @@ class CtrlTwitter:
         Args:
             sendmsg ([str]): [Tweetメッセージ]
         '''        
-        _ = twitter_bot.Twitter_bot
-        _.UpdateTweet(_, msg)
+        _ = twitter_bot.Twitter_bot()
+        _.UpdateTweet(msg)
 
     def WriteSensordataToJSON(self, temp, co2, pressure, hum):
         '''[センサーデータを記録]
@@ -63,8 +63,8 @@ class CtrlTwitter:
         sensordata = {'Temp': str(temp), 'CO2': str(co2), 'Barometer': str(pressure), 'Humidity': str(hum)}
         # {'Temp': '22.5', 'CO2': '450', 'Barometer': '1013', 'Humidity': '40'}
 
-        _ = LoadAndAddJSON.LoadAndAddJSON
-        _.add_SensorDataToJSON(_, sensordata)
+        _ = LoadAndAddJSON.LoadAndAddJSON()
+        _.add_SensorDataToJSON(sensordata)
         
     def main(self):
         '''
@@ -74,8 +74,8 @@ class CtrlTwitter:
         logging.debug('VV')
 
         # SensorBME280センサーへアクセス・データの取得
-        sensor1 = SensorBME280.bme280
-        rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp = sensor1.Main(sensor1)
+        sensor1 = SensorBME280.bme280()
+        rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp = sensor1.Main()
 
         # CO2センサーへアクセス・データの取得
         sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
@@ -84,22 +84,41 @@ class CtrlTwitter:
         rsp_sensor0_co2, rsp_sensor0_temp = sensor0.get_data()
 
         # Tweetメッセージの生成
-        sendmsg = self.GenSendMsg(self, rsp_sensor0_co2['co2'], rsp_sensor0_temp['temperature'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
+        sendmsg = self.GenSendMsg(rsp_sensor0_co2['co2'], rsp_sensor0_temp['temperature'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
 
         # センセーのデータをTweet
-        self.UpdateTweetMsg(self, sendmsg)
+        self.UpdateTweetMsg(sendmsg)
 
         #センサーデータを記録
-        self.WriteSensordataToJSON(self, rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum)
+        self.WriteSensordataToJSON(rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum)
 
         logging.debug('AA')
 
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        self = super().__new__(cls)
+        return self
+
     def __init__(self):
-        ''''''
+        '''[summary]
+        '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
+        '''
+        logging.debug('__del__')
 
 if __name__ == '__main__':
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
-    myclass = CtrlTwitter
-    myclass.main(myclass)
+    myclass = CtrlTwitter()
+    myclass.main()
     logging.debug('AA')

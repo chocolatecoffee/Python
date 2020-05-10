@@ -107,7 +107,7 @@ class GraphGenerater:
         logging.debug('VV')
 
         try:
-            jsonobj = self._Load_JSON(self, self._jsonfile)
+            jsonobj = self._Load_JSON(self._jsonfile)
             
         except FileNotFoundError:
             logging.debug('FileNotFound:' + self._jsonfile)
@@ -126,7 +126,7 @@ class GraphGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        yesterdayPttn = self._IsYesterday(self)
+        yesterdayPttn = self._IsYesterday()
 
         # 昨日は昨年
         if (yesterdayPttn == 'lastYear'):
@@ -182,7 +182,7 @@ class GraphGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ
-        yesterdayPttn = self._IsYesterday(self)
+        yesterdayPttn = self._IsYesterday()
 
         tmp_year =_yesterday.year
         tmp_mo = _yesterday.month
@@ -266,26 +266,45 @@ class GraphGenerater:
         Args:
             sendmsg ([str]): [Tweetメッセージ]
         '''        
-        _ = twitter_bot.Twitter_bot
-        _.UpdateTweetWithImg(_, msg,img)
+        _ = twitter_bot.Twitter_bot()
+        _.UpdateTweetWithImg(msg,img)
 
     def main(self):
         '''[summary]
         '''
 
-        sensordata = self.RepackSensordata(self)
+        sensordata = self.RepackSensordata()
         #logging.debug(sensordata)
-        savefile = self.GenGraph(self, sensordata)
+        savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        #self.UpdateTweetWithImage(self, '#CO2 concentration',savefile)
+        self.UpdateTweetWithImage('#CO2 concentration',savefile)
+
+    def __new__(cls):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('__new__')
+        self = super().__new__(cls)
+        return self
 
     def __init__(self):
-        ''''''
+        '''[summary]
+        '''
+
+        logging.debug('__init__')
+
+    def __del__(self):
+        '''[summary]
+        '''
+        logging.debug('__del__')
 
 if __name__ == "__main__":
     # ダブルクリックなどで実行された場合に”__name__”に”__name__”と入るのでここが実行される
     logging.debug('VV')
-    myclass = GraphGenerater
-    myclass.main(myclass)
+    myclass = GraphGenerater()
+    myclass.main()
     logging.debug('AA')
