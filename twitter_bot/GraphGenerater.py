@@ -307,4 +307,5 @@ if __name__ == "__main__":
     logging.debug('VV')
     myclass = GraphGenerater()
     myclass.main()
+    del myclass
     logging.debug('AA')

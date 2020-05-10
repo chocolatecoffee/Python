@@ -150,9 +150,9 @@ class bme280:
         config_reg = (t_sb << 5) | (filter << 2) | spi3w_en
         ctrl_hum_reg = osrs_h
 
-        self.writeReg(self, 0xF2, ctrl_hum_reg)
-        self.writeReg(self, 0xF4, ctrl_meas_reg)
-        self.writeReg(self, 0xF5, config_reg)
+        self.writeReg(0xF2, ctrl_hum_reg)
+        self.writeReg(0xF4, ctrl_meas_reg)
+        self.writeReg(0xF5, config_reg)
         
     def readData(self):
         
@@ -164,22 +164,22 @@ class bme280:
         temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
         hum_raw = (data[6] << 8) | data[7]
 
-        pressure = self.compensate_P(self, pres_raw)
-        hum = self.compensate_H(self,hum_raw)
-        temp = self.compensate_T(self,temp_raw)
+        pressure = self.compensate_P(pres_raw)
+        hum = self.compensate_H(hum_raw)
+        temp = self.compensate_T(temp_raw)
         
         return round(pressure, 2), round(hum, 2), round(temp, 2)
 
     def Main(self):
-        self.setup(self)
-        self.get_calib_param(self)
-        return self.readData(self)
+        self.setup()
+        self.get_calib_param()
+        return self.readData()
 
 if __name__ == '__main__':
-    myclass = bme280
+    myclass = bme280()
 
     try:
-       pressure, hum, temp = myclass.Main(myclass)
+       pressure, hum, temp = myclass.Main()
 
        # print("pressure : %7.2f hPa" % (pressure))
        # print("temp : %-6.2f ℃" % (temp))

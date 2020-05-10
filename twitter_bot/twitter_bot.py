@@ -109,4 +109,5 @@ if __name__ == '__main__':
     logging.debug('VV')
     myclass = Twitter_bot()
     myclass.main()
+    del myclass
     logging.debug('AA')
