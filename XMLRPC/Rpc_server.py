@@ -10,8 +10,6 @@ import xmlrpc.server as rpc
 
 class Rpc_server:
 
-    rpc_paths = ('/RPC2',)
-
     # ポート番号
     _PORT = 50000
 
@@ -21,28 +19,13 @@ class Rpc_server:
     # ServerIP
     _SERVER_IP = '192.168.100.2'
 
-    _jsondata = './Test.json'
+    # Rpc_clientに渡すJSON
+    _json_ApplicationItiran = './ApplicationItiran.json'
+    _json_Settings = './Settings.json'
 
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log_Server.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
-
-    def _LoadJSON(self):
-        '''JSONの読み取り ”_jsondata”を読み取る'''
-        logging.debug('VV')
-
-        # Json読み取り
-        return json.load(open(self._jsondata, 'r'))
-
-    def _DumpJSON(self):
-        '''[_LoadJSONで読み込んだ_jsondataをbyte文字列（utf-8）で返す]
-
-        Returns:
-            [byte]: [_jsondataをbyte文字列（utf-8）で返す]
-        '''
-        logging.debug('VV')
-
-        return json.dumps(self._LoadJSON()).encode('utf-8')
 
     def StartServer(self):
         '''[summary]
@@ -51,22 +34,49 @@ class Rpc_server:
             [type]: [description]
         '''
 
-        strjson = self._DumpJSON()
-
-        with rpc.SimpleXMLRPCServer((self._SERVER_IP, self._PORT)) as server:
+        with rpc.SimpleXMLRPCServer((self._SERVER_IP, self._PORT), requestHandler=rpc.SimpleXMLRPCRequestHandler) as server:
 
             server.register_introspection_functions()
 
             def GetJSON():
+                '''JSONの読み取り ”_jsondata”を読み取る'''
 
-                return strjson
+                json_Stngs = None
+                json_App = None
 
-            def SendMsg(msg):
-                print(msg)
-                return ''
+                try:
+                    logging.debug('VV')
+                    json_App = json.load(
+                        open(self._json_ApplicationItiran, 'r', encoding='UTF-8'))
+                    json_Stngs = json.load(
+                        open(self._json_Settings, 'r', encoding='UTF-8'))
+                except FileNotFoundError as exp:
+                    logging.exception(exp)
+
+                return json_Stngs, json_App
+
+            def SaveMsg(savefilename, msg):
+                '''[summary]
+
+                Args:
+                    msg ([type]): [description]
+
+                Returns:
+                    [type]: [description]
+                '''
+                return_msg = 'サーバメッセージ:Success!!'
+
+                try:
+                    json.dump(msg, open('.//' + savefilename, 'w',
+                                        encoding='UTF-8'), ensure_ascii=False, indent=4)
+                except Exception as exp:
+                    logging.exception(exp)
+                    return_msg = 'サーバメッセージ:保存失敗'
+
+                return return_msg
 
             server.register_function(GetJSON, 'getjson')
-            server.register_function(SendMsg, 'sendmsg')
+            server.register_function(SaveMsg, 'savemsg')
 
             print('Serving XML-RPC on localhost port 50000')
             server.serve_forever()
@@ -95,7 +105,7 @@ class Rpc_server:
     def __del__(self):
         '''[summary]
         '''
-        logging.debug('__del__')
+        # logging.debug('__del__')
 
 
 if __name__ == '__main__':
