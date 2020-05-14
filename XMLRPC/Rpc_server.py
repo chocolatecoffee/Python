@@ -23,6 +23,10 @@ class Rpc_server:
     _json_ApplicationItiran = './ApplicationItiran.json'
     _json_Settings = './Settings.json'
 
+    # Rpc_clientに渡すPowerShell
+    _pshell_getIMELangSettingList = '/getIMELangSettingList.ps1'
+    _pshell_GetStoreApplication = './GetStoreApplication.ps1'
+
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log_Server.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
@@ -55,6 +59,24 @@ class Rpc_server:
 
                 return json_Stngs, json_App
 
+            def GetPShell():
+                '''[summary]
+                '''
+
+                pshell_getime = None
+                pshell_getStore = None
+
+                try:
+                    logging.debug('VV')
+                    pshell_getime = open(
+                        self._pshell_getIMELangSettingList, 'r', encoding='UTF-8')
+                    pshell_getStore = open(
+                        self._pshell_GetStoreApplication, 'r', encoding='UTF-8')
+                except FileNotFoundError as exp:
+                    logging.exception(exp)
+
+                return pshell_getime, pshell_getStore
+
             def SaveMsg(savefilename, msg):
                 '''[summary]
 
@@ -76,6 +98,7 @@ class Rpc_server:
                 return return_msg
 
             server.register_function(GetJSON, 'getjson')
+            server.register_function(GetPShell, 'getpshell')
             server.register_function(SaveMsg, 'savemsg')
 
             print('Serving XML-RPC on localhost port 50000')

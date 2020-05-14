@@ -51,6 +51,34 @@ class rpc_client:
 
         return json_Stngs, json_App
 
+    def RequestPowerShell(self):
+        '''[summary]
+
+        Returns:
+            [type]: [description]
+        '''
+
+        logging.debug('VV')
+
+        pshell_getime = None
+        pshell_getStore = None
+
+        try:
+            srv = client.ServerProxy(
+                'http://' + self._SERVER_IP + ':' + self._PORT)
+            pshell_getime, pshell_getStore = srv.getpshell()
+
+            if pshell_getime is not None and pshell_getStore is not None:
+                print("セッティングファイル取得成功")
+
+            else:
+                print("セッティングファイル取得失敗")
+
+        except Exception as exp:
+            logging.exception(exp)
+
+        return pshell_getime, pshell_getStore
+
     def SendMsg(self, savefilename, msg):
         '''[summary]
 
