@@ -24,7 +24,7 @@ class Rpc_server:
     _json_Settings = './Settings.json'
 
     # Rpc_clientに渡すPowerShell
-    _pshell_getIMELangSettingList = '/getIMELangSettingList.ps1'
+    _pshell_getIMELangSettingList = './getIMELangSettingList.ps1'
     _pshell_GetStoreApplication = './GetStoreApplication.ps1'
 
     # logfile
@@ -54,6 +54,7 @@ class Rpc_server:
                         open(self._json_ApplicationItiran, 'r', encoding='UTF-8'))
                     json_Stngs = json.load(
                         open(self._json_Settings, 'r', encoding='UTF-8'))
+
                 except FileNotFoundError as exp:
                     logging.exception(exp)
 
@@ -63,19 +64,22 @@ class Rpc_server:
                 '''[summary]
                 '''
 
-                pshell_getime = None
-                pshell_getStore = None
+                send_pshell_getime = None
+                send_pshell_getStore = None
 
                 try:
                     logging.debug('VV')
-                    pshell_getime = open(
-                        self._pshell_getIMELangSettingList, 'r', encoding='UTF-8')
-                    pshell_getStore = open(
-                        self._pshell_GetStoreApplication, 'r', encoding='UTF-8')
+
+                    with open(self._pshell_getIMELangSettingList, 'r', encoding='UTF-8') as pshell_getime:
+                        send_pshell_getime = pshell_getime.read()
+
+                    with open(self._pshell_GetStoreApplication, 'r', encoding='UTF-8') as pshell_getStore:
+                        send_pshell_getStore = pshell_getStore.read()
+
                 except FileNotFoundError as exp:
                     logging.exception(exp)
 
-                return pshell_getime, pshell_getStore
+                return send_pshell_getime, send_pshell_getStore
 
             def SaveMsg(savefilename, msg):
                 '''[summary]

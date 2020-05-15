@@ -41,10 +41,10 @@ class rpc_client:
             json_Stngs, json_App = srv.getjson()
 
             if json_Stngs is not None and json_App is not None:
-                print("セッティングファイル取得成功")
+                print('セッティングファイル取得成功')
 
             else:
-                print("セッティングファイル取得失敗")
+                print('セッティングファイル取得失敗')
 
         except Exception as exp:
             logging.exception(exp)
@@ -69,10 +69,10 @@ class rpc_client:
             pshell_getime, pshell_getStore = srv.getpshell()
 
             if pshell_getime is not None and pshell_getStore is not None:
-                print("セッティングファイル取得成功")
+                print('Powershellファイル取得成功')
 
             else:
-                print("セッティングファイル取得失敗")
+                print('Powershellファイル取得失敗')
 
         except Exception as exp:
             logging.exception(exp)
