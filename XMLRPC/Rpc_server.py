@@ -81,11 +81,11 @@ class Rpc_server:
             try:
                 logging.debug('VV')
 
-                with open(self._pshell_GetIMELangSettingList, 'r', encoding='UTF-8') as pshell_getime:
-                    send_pshell_getime = pshell_getime.read()
+                send_pshell_getime = open(
+                    self._pshell_GetIMELangSettingList, 'r', encoding='UTF-8').read()
 
-                with open(self._pshell_GetStoreApplication, 'r', encoding='UTF-8') as pshell_getStore:
-                    send_pshell_getStore = pshell_getStore.read()
+                send_pshell_getStore = open(
+                    self._pshell_GetStoreApplication, 'r', encoding='UTF-8').read()
 
             except FileNotFoundError as exp:
                 logging.exception(exp)

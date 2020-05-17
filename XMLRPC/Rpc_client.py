@@ -32,19 +32,12 @@ class rpc_client:
 
         logging.debug('VV')
 
-        dict_json = {}
-
         try:
-            srv = client.ServerProxy(
-                'http://' + self._SERVER_IP + ':' + self._PORT)
-            dict_json = srv.getjson()
+            return client.ServerProxy(
+                'http://' + self._SERVER_IP + ':' + self._PORT).getjson()
 
         except Exception as exp:
             logging.exception(exp)
-
-        logging.debug('AA')
-
-        return dict_json
 
     def RequestPowerShell(self):
         '''[summary]
@@ -55,17 +48,12 @@ class rpc_client:
 
         logging.debug('VV')
 
-        dict_pshells = {}
-
         try:
-            srv = client.ServerProxy(
-                'http://' + self._SERVER_IP + ':' + self._PORT)
-            dict_pshells = srv.getpshell()
+            return client.ServerProxy(
+                'http://' + self._SERVER_IP + ':' + self._PORT).getpshell()
 
         except Exception as exp:
             logging.exception(exp)
-
-        return dict_pshells
 
     def SendMsg(self, savefilename, msg):
         '''[summary]
@@ -76,10 +64,8 @@ class rpc_client:
 
         logging.debug('VV')
 
-        srv = client.ServerProxy(
-            'http://' + self._SERVER_IP + ':' + self._PORT)
-        logging.debug(type(msg))
-        print(srv.savemsg(savefilename, msg))
+        print(client.ServerProxy(
+            'http://' + self._SERVER_IP + ':' + self._PORT).savemsg(savefilename, msg))
 
         logging.debug('AA')
 
