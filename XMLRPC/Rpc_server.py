@@ -49,75 +49,75 @@ class Rpc_server:
         Returns:
             [type]: [description]
         '''
-        with rpc.SimpleXMLRPCServer((self._SERVER_IP, self._PORT), requestHandler=rpc.SimpleXMLRPCRequestHandler) as server:
 
-            server.register_introspection_functions()
+        server = rpc.SimpleXMLRPCServer(
+            (self._SERVER_IP, self._PORT), requestHandler=rpc.SimpleXMLRPCRequestHandler)
 
-            def GetJSON():
-                '''JSONの読み取り ”_jsondata”を読み取る'''
+        server.register_introspection_functions()
 
-                json_Stngs = None
-                json_App = None
+        def GetJSON():
+            '''JSONの読み取り ”_jsondata”を読み取る'''
 
-                try:
-                    logging.debug('VV')
-                    json_Stngs = json.load(
-                        open(self._json_Settings, 'r', encoding='UTF-8'))
-                    json_App = json.load(
-                        open(self._json_ApplicationItiran, 'r', encoding='UTF-8'))
+            json_Stngs = None
+            json_App = None
 
-                except FileNotFoundError as exp:
-                    logging.exception(exp)
+            try:
+                logging.debug('VV')
+                json_Stngs = json.load(
+                    open(self._json_Settings, 'r', encoding='UTF-8'))
+                json_App = json.load(
+                    open(self._json_ApplicationItiran, 'r', encoding='UTF-8'))
 
-                return {self._setttings['settingfile_01']: json_Stngs, self._setttings['settingfile_02']: json_App}
+            except FileNotFoundError as exp:
+                logging.exception(exp)
 
-            def GetPShell():
-                '''[summary]
-                '''
+            return {self._setttings['settingfile_01']: json_Stngs, self._setttings['settingfile_02']: json_App}
 
-                send_pshell_getime = None
-                send_pshell_getStore = None
+        def GetPShell():
 
-                try:
-                    logging.debug('VV')
+            send_pshell_getime = None
+            send_pshell_getStore = None
 
-                    with open(self._pshell_GetIMELangSettingList, 'r', encoding='UTF-8') as pshell_getime:
-                        send_pshell_getime = pshell_getime.read()
+            try:
+                logging.debug('VV')
 
-                    with open(self._pshell_GetStoreApplication, 'r', encoding='UTF-8') as pshell_getStore:
-                        send_pshell_getStore = pshell_getStore.read()
+                with open(self._pshell_GetIMELangSettingList, 'r', encoding='UTF-8') as pshell_getime:
+                    send_pshell_getime = pshell_getime.read()
 
-                except FileNotFoundError as exp:
-                    logging.exception(exp)
+                with open(self._pshell_GetStoreApplication, 'r', encoding='UTF-8') as pshell_getStore:
+                    send_pshell_getStore = pshell_getStore.read()
 
-                return {self._setttings['ps_cmd_01']: send_pshell_getime, self._setttings['ps_cmd_02']: send_pshell_getStore}
+            except FileNotFoundError as exp:
+                logging.exception(exp)
 
-            def SaveMsg(savefilename, msg):
-                '''[summary]
+            return {self._setttings['ps_cmd_01']: send_pshell_getime, self._setttings['ps_cmd_02']: send_pshell_getStore}
 
-                Args:
-                    msg ([type]): [description]
+        def SaveMsg(savefilename, msg):
+            '''[summary]
 
-                Returns:
-                    [type]: [description]
-                '''
-                return_msg = 'サーバメッセージ:Success!!'
+            Args:
+                msg ([type]): [description]
 
-                try:
-                    json.dump(msg, open('.//' + savefilename, 'w',
-                                        encoding='UTF-8'), ensure_ascii=False, indent=4)
-                except Exception as exp:
-                    logging.exception(exp)
-                    return_msg = 'サーバメッセージ:保存失敗'
+            Returns:
+                [type]: [description]
+            '''
+            return_msg = 'サーバメッセージ:Success!!'
 
-                return return_msg
+            try:
+                json.dump(msg, open('.//' + savefilename, 'w',
+                                    encoding='UTF-8'), ensure_ascii=False, indent=4)
+            except Exception as exp:
+                logging.exception(exp)
+                return_msg = 'サーバメッセージ:保存失敗'
 
-            server.register_function(GetJSON, 'getjson')
-            server.register_function(GetPShell, 'getpshell')
-            server.register_function(SaveMsg, 'savemsg')
+            return return_msg
 
-            print('Serving XML-RPC on ' + self._SERVER_IP + ':port 50000')
-            server.serve_forever()
+        server.register_function(GetJSON, 'getjson')
+        server.register_function(GetPShell, 'getpshell')
+        server.register_function(SaveMsg, 'savemsg')
+
+        print('Serving XML-RPC on ' + self._SERVER_IP + ':port 50000')
+        server.serve_forever()
 
     def Main(self):
         ''''''
