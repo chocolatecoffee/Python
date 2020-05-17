@@ -32,24 +32,19 @@ class rpc_client:
 
         logging.debug('VV')
 
-        json_Stngs = None
-        json_App = None
+        dict_json = {}
 
         try:
             srv = client.ServerProxy(
                 'http://' + self._SERVER_IP + ':' + self._PORT)
-            json_Stngs, json_App = srv.getjson()
-
-            if json_Stngs is not None and json_App is not None:
-                print('セッティングファイル取得成功')
-
-            else:
-                print('セッティングファイル取得失敗')
+            dict_json = srv.getjson()
 
         except Exception as exp:
             logging.exception(exp)
 
-        return json_Stngs, json_App
+        logging.debug('AA')
+
+        return dict_json
 
     def RequestPowerShell(self):
         '''[summary]
@@ -60,24 +55,17 @@ class rpc_client:
 
         logging.debug('VV')
 
-        pshell_getime = None
-        pshell_getStore = None
+        dict_pshells = {}
 
         try:
             srv = client.ServerProxy(
                 'http://' + self._SERVER_IP + ':' + self._PORT)
-            pshell_getime, pshell_getStore = srv.getpshell()
-
-            if pshell_getime is not None and pshell_getStore is not None:
-                print('Powershellファイル取得成功')
-
-            else:
-                print('Powershellファイル取得失敗')
+            dict_pshells = srv.getpshell()
 
         except Exception as exp:
             logging.exception(exp)
 
-        return pshell_getime, pshell_getStore
+        return dict_pshells
 
     def SendMsg(self, savefilename, msg):
         '''[summary]
