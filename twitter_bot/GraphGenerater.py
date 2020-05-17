@@ -14,10 +14,11 @@ import numpy as np
 from matplotlib import rcParams
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
-    # https://docs.python.org/ja/3/library/datetime.html#
-    # _today = datetime.datetime.now().isoformat()
-    # _today 2019-10-17T23:11:56.338690
+# https://docs.python.org/ja/3/library/datetime.html#
+# _today = datetime.datetime.now().isoformat()
+# _today 2019-10-17T23:11:56.338690
 
 _today = datetime.datetime.now()
 #_today = datetime.date(2020,1,1)
@@ -230,30 +231,33 @@ class GraphGenerater:
         # plt.imshow(rbm, cmap='RdBu_r',extent=(0, 48, 0, 1),aspect=1, vmin=0, vmax=100)
 
         # CO2
-        im = ax.imshow(sensorCO2List, cmap='RdBu_r', extent=(0, 48, len(sensorCO2List), 0),  vmin=300, vmax=1600)
+        im = ax.imshow(sensorCO2List, cmap='RdBu_r', extent=(0, 24, len(sensorCO2List), 0),  vmin=300, vmax=1600)
         ax.set_title(graphTitle)
-        ax.set_xlabel('時間 (一時間にデータを2回取得なので48回　要調整)')
+        ax.set_xlabel('時')
         # ax.set_xticklabels(farmers)
         # ax.set_yticklabels(vegetables)
         ax.set_ylabel('日')
         #plt.legend('凡例')
 
         # X軸の開始～終わり
-        ax.set_xlim(0, 48)
+        ax.set_xlim(0, 24)
         #ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(2))
 
         # Y軸の開始～終わり
         ax.set_ylim(0,len(sensorCO2List))
-
-        #カラーバー colorbarの調整方法を調べてたらいつのまにか2時間経ってた 難しすぎでしょ 
-        divider = make_axes_locatable(ax)
-        # cax = divider.append_axes(position = 'right',size='2%', pad=0.1)
-        cax = divider.append_axes(position = 'right',size='2%', pad='5%')
-        plt.colorbar(im, cax=cax,orientation='vertical')
-        
         #グリッド
         ax.grid()
 
+        ax_colorbar = inset_axes(ax,
+                   width='75%',
+                   height='40%',
+                   loc='upper center',
+                   bbox_to_anchor=(0, -7,1, 1),
+                   bbox_transform=ax.transAxes,
+                   )
+
+        fig.colorbar(im, cax=ax_colorbar,orientation='horizontal',label='凡例：CO2 PPM')
+        
         fig.savefig(saveFileName)
         #plt.show()
 
@@ -278,7 +282,7 @@ class GraphGenerater:
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        #self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
