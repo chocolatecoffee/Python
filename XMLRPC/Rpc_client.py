@@ -8,7 +8,7 @@ import xmlrpc.client as client
 import json
 
 
-class rpc_client:
+class Rpc_client:
 
     # ポート番号
     _PORT = '50000'
@@ -98,7 +98,7 @@ class rpc_client:
 if __name__ == '__main__':
 
     logging.debug('VV')
-    myclass = rpc_client()
+    myclass = Rpc_client()
     myclass.Main()
     del myclass
     logging.debug('AA')

@@ -19,7 +19,7 @@ class Rpc_server:
     # ServerIP
     _SERVER_IP = '192.168.100.2'
 
-    _setttings = {}
+    _stngs = {}
     '''読みだされた設定情報（Settings.json）を保管用'''
 
     # Rpc_clientに渡すJSON
@@ -35,10 +35,10 @@ class Rpc_server:
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def _LoadJSON(self):
-        '''JSONの読み取り ”_jsondata”を読み取る'''
+        '''”_json_Settings”を読み取る'''
         logging.debug('VV')
 
-        self._setttings = json.load(
+        self._stngs = json.load(
             open(self._json_Settings, 'r', encoding='UTF-8'))
 
         logging.debug('AA')
@@ -56,25 +56,32 @@ class Rpc_server:
         server.register_introspection_functions()
 
         def GetJSON():
-            '''JSONの読み取り ”_jsondata”を読み取る'''
+            '''[summary]
 
+            Returns:
+                [type]: [description]
+            '''
             json_Stngs = None
             json_App = None
 
             try:
                 logging.debug('VV')
                 json_Stngs = json.load(
-                    open(self._json_Settings, 'r', encoding='UTF-8'))
+                    open(self._json_Settings, 'r', encoding=self._stngs['charcode_01']))
                 json_App = json.load(
-                    open(self._json_ApplicationItiran, 'r', encoding='UTF-8'))
+                    open(self._json_ApplicationItiran, 'r', encoding=self._stngs['charcode_01']))
 
             except FileNotFoundError as exp:
                 logging.exception(exp)
 
-            return {self._setttings['settingfile_01']: json_Stngs, self._setttings['settingfile_02']: json_App}
+            return {self._stngs['settingfile_01']: json_Stngs, self._stngs['settingfile_02']: json_App}
 
         def GetPShell():
+            '''[summary]
 
+            Returns:
+                [type]: [description]
+            '''
             send_pshell_getime = None
             send_pshell_getStore = None
 
@@ -82,15 +89,15 @@ class Rpc_server:
                 logging.debug('VV')
 
                 send_pshell_getime = open(
-                    self._pshell_GetIMELangSettingList, 'r', encoding='UTF-8').read()
+                    self._pshell_GetIMELangSettingList, 'r', encoding=self._stngs['charcode_01']).read()
 
                 send_pshell_getStore = open(
-                    self._pshell_GetStoreApplication, 'r', encoding='UTF-8').read()
+                    self._pshell_GetStoreApplication, 'r', encoding=self._stngs['charcode_01']).read()
 
             except FileNotFoundError as exp:
                 logging.exception(exp)
 
-            return {self._setttings['ps_cmd_01']: send_pshell_getime, self._setttings['ps_cmd_02']: send_pshell_getStore}
+            return {self._stngs['ps_cmd_01']: send_pshell_getime, self._stngs['ps_cmd_02']: send_pshell_getStore}
 
         def SaveMsg(savefilename, msg):
             '''[summary]
@@ -104,8 +111,8 @@ class Rpc_server:
             return_msg = 'サーバメッセージ:Success!!'
 
             try:
-                json.dump(msg, open('.//' + savefilename, 'w',
-                                    encoding='UTF-8'), ensure_ascii=False, indent=4)
+                json.dump(msg, open('./' + savefilename, 'w',
+                                    encoding=self._stngs['charcode_01']), ensure_ascii=False, indent=4)
             except Exception as exp:
                 logging.exception(exp)
                 return_msg = 'サーバメッセージ:保存失敗'
@@ -120,8 +127,8 @@ class Rpc_server:
         server.serve_forever()
 
     def Main(self):
-        ''''''
-        self._LoadJSON()
+        '''[summary]
+        '''
         self.StartServer()
 
     def __new__(cls):
@@ -138,7 +145,7 @@ class Rpc_server:
     def __init__(self):
         '''[summary]
         '''
-
+        self._LoadJSON()
         logging.debug('__init__')
 
     def __del__(self):
