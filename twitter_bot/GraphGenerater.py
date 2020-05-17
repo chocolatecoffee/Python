@@ -282,7 +282,7 @@ class GraphGenerater:
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        #self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
