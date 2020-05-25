@@ -1,19 +1,17 @@
-from collections import OrderedDict
 import datetime
 from datetime import timedelta
 import json
 import logging
-import os
+# import os
 import twitter_bot
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-
-import numpy as np
+# import matplotlib.cm as cm
 from matplotlib import rcParams
 
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+# from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 # https://docs.python.org/ja/3/library/datetime.html#
@@ -234,20 +232,20 @@ class GraphGenerater:
         im = ax.imshow(sensorCO2List, cmap='RdBu_r', extent=(0, 24, len(sensorCO2List), 0),  vmin=300, vmax=1600)
         ax.set_title(graphTitle)
         ax.set_xlabel('時')
-        # ax.set_xticklabels(farmers)
-        # ax.set_yticklabels(vegetables)
         ax.set_ylabel('日')
-        #plt.legend('凡例')
 
         # X軸の開始～終わり
         ax.set_xlim(0, 24)
-        #ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(2))
+        ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(base=3))
+        #ax.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%0.1f'))
 
         # Y軸の開始～終わり
-        ax.set_ylim(0,len(sensorCO2List))
+        ax.set_ylim(0, len(sensorCO2List))
+        
         #グリッド
         ax.grid()
 
+        # 凡例
         ax_colorbar = inset_axes(ax,
                    width='75%',
                    height='40%',
@@ -255,7 +253,6 @@ class GraphGenerater:
                    bbox_to_anchor=(0, -7,1, 1),
                    bbox_transform=ax.transAxes,
                    )
-
         fig.colorbar(im, cax=ax_colorbar,orientation='horizontal',label='凡例：CO2 PPM')
         
         fig.savefig(saveFileName)
@@ -282,7 +279,7 @@ class GraphGenerater:
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        #self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
