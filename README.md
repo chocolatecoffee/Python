@@ -1,7 +1,30 @@
 # Python
+
+## [CSVtoGraph](https://github.com/chocolatecoffee/Python/tree/master/CSVtoGraph)
+### [CsvLoader.py](https://github.com/chocolatecoffee/Python/blob/master/CSVtoGraph/CsvLoader.py)
+### [GraphGenerater.py](https://github.com/chocolatecoffee/Python/blob/master/CSVtoGraph/GraphGenerater.py)
+
 ## [Common](https://github.com/chocolatecoffee/Python/tree/master/Common)
 ### [getMD5.py](https://github.com/chocolatecoffee/Python/blob/master/Common/getMD5.py)
 + calc MD5
+
+## [TKinter](https://github.com/chocolatecoffee/Python/tree/master/TKinter)
+### [CheckMD5.py](https://github.com/chocolatecoffee/Python/blob/master/TKinter/CheckMD5.py)
+### [Create_QRCode.py](https://github.com/chocolatecoffee/Python/blob/master/TKinter/Create_QRCode.py)
+### [HellowTkinter.py](https://github.com/chocolatecoffee/Python/blob/master/TKinter/HellowTkinter.py)
+### [TKinter_Frame.py](https://github.com/chocolatecoffee/Python/blob/master/TKinter/TKinter_Frame.py)
+### [getMD5.py](https://github.com/chocolatecoffee/Python/blob/master/TKinter/getMD5.py)
+
+## [Thread](https://github.com/chocolatecoffee/Python/tree/master/Thread)
+### [ThreadOrder.py](https://github.com/chocolatecoffee/Python/blob/master/Thread/ThreadOrder.py)
+
+## [UdpServerClient](https://github.com/chocolatecoffee/Python/tree/master/UdpServerClient)
+### [UdpClient.py](https://github.com/chocolatecoffee/Python/blob/master/UdpServerClient/UdpClient.py)
+### [UdpServer.py](https://github.com/chocolatecoffee/Python/blob/master/UdpServerClient/UdpServer.py)
+
+## [XMLRPC](https://github.com/chocolatecoffee/Python/tree/master/XMLRPC)
+### [Rpc_client.py](https://github.com/chocolatecoffee/Python/blob/master/XMLRPC/Rpc_client.py)
+### [Rpc_server.py](https://github.com/chocolatecoffee/Python/tree/master/XMLRPC)
 
 ## [twitter_bot](https://github.com/chocolatecoffee/Python/tree/master/twitter_bot)
 + [センサーのデータを取得するプログラム:CO2Meter](https://github.com/heinemml/CO2Meter)をカスタムして利用．
@@ -26,5 +49,4 @@
 年始に一年分，月初めに一ヶ月分，日が変わる頃に昨日のデータを抽出し，それぞれ年別，月別，昨日分のグラフを作成する．
 
   + generate CO2 Graph
-    + *Testing generate Colorbar,XLabel,YLabel*
   + *Testing generate Temp, Barometer,Humidity Graph*
