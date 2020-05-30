@@ -1,30 +1,38 @@
-import logging
 import CsvLoader
+import logging
 
-import matplotlib as mpl
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
+
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 
 class GraphGenerater:
-
-    # sampledata
-    _csvfile = './sample_02.tsv'
 
     # ログレベルのフォーマット Log.txtファイルに出力
     logging.basicConfig(level=logging.DEBUG, filename='Log.txt', filemode='w',
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def AdjustData(self, unadjust_data):
-        '''[summary]
+        '''[CSVのファイル内容をColumnHeader、RowHeader、Fieldに分ける]
+            CSVの表は以下の形を取る必要がある。"X"は読み飛ばされる。
+            X   A   B   C
+            1   a   b   c
+            2   d   e   f
+            3   g   h   i
+
+            ColumnHeaderに[AB,C]
+            RowHeaderに[1,2,3]
+            Fieldに[[a,b,c][d,e,f][g,h,i]]と入る
 
         Args:
-            unadjust_data ([type]): [description]
+            unadjust_data ([str]): [CSVFilePath]
 
         Returns:
-            [type]: [description]
+            [List]: [ColumnHeader:CSVファイルの先頭1行目]
+            [List]: [RowHeader:CSVファイルの1列目]
+            [List]: [Field:ColumnHeader,RowHeader以外の部分]
         '''
         ColumnHeader = []
         RowHeader = []
@@ -44,14 +52,22 @@ class GraphGenerater:
 
         return ColumnHeader, RowHeader, Field
 
-    def GenGraph(self, unadjust_data):
-        '''[summary]
+    def GenGraph(self, unadjust_data, saveFileName):
+        '''[CSVファイルから図を出力する。]
+
+            CSVの表は以下の形を取る必要がある。
+            X   A   B   C
+            1   a   b   c
+            2   d   e   f
+            3   g   h   i
+
+            ColumnHeaderに[AB,C]
+            RowHeaderに[1,2,3]
+            Fieldに[[a,b,c][d,e,f][g,h,i]]と入る
 
         Args:
-            unadjust_data ([type]): [description]
-
-        Returns:
-            [type]: [description]
+            unadjust_data ([type]): [CSVFilePath]
+            saveFileName ([type]): [output path/picturename]
         '''
 
         # Axes.set_xlabel
@@ -77,9 +93,6 @@ class GraphGenerater:
 
         ColumnHeader, RowHeader, Field = self.AdjustData(unadjust_data)
 
-        # 保存ファイル名
-        saveFileName = './test.png'
-
         # 表のタイトル
         graphTitle = 'サンプルタイトル'
 
@@ -90,8 +103,8 @@ class GraphGenerater:
         yLabel = 'Y軸'
 
         # 日本語を利用する場合のFont指定 <全体>
-        rcParams['font.family'] = 'sans-serif'
-        rcParams['font.sans-serif'] = ['MigMix 2P', 'IPAPGothic']
+        plt.rcParams['font.family'] = 'sans-serif'
+        plt.rcParams['font.sans-serif'] = ['MigMix 2P', 'IPAPGothic']
 
         # 表の表示サイズを固定 figsize=(width, height)
         # fig, ax = plt.subplots(figsize=(8, 6))
@@ -105,33 +118,38 @@ class GraphGenerater:
         #im = ax.pcolormesh(arryField, cmap='GnBu')
         im = ax.imshow(arryField, cmap="GnBu")
 
-        # 表タイトル,XYの軸名
+        # 表,XYの軸タイトル
         ax.set_title(graphTitle)
         ax.set_xlabel(xLabel)
         ax.set_ylabel(yLabel)
 
         # X軸の開始～終わり
         # ax.set_xlim(0, 99)
+
+        # X軸要素名
         ax.set_xticklabels(ColumnHeader)
         ax.set_xticks(np.arange(len(ColumnHeader)), minor=False)
 
         # X軸の数値を何個飛ばしで表示するか
-        # ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(base=1))
-        # ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(len(ColumnHeader)))
+        # ax.xaxis.set_major_locator(ticker.MultipleLocator(base=1))
+        # ax.xaxis.set_major_locator(ticker.MaxNLocator(len(ColumnHeader)))
 
         # Y軸の開始～終わり
         # ax.set_ylim()
+
+        # Y軸要素名
         ax.set_yticklabels(RowHeader)
         ax.set_yticks(np.arange(len(RowHeader)), minor=False)
 
         # Y軸の数値を何個飛ばしで表示するか
-        # ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(base=2))
-        # ax.yaxis.set_major_locator(mpl.ticker.MaxNLocator(len(RowHeader)))
+        # ax.yaxis.set_major_locator(ticker.MultipleLocator(base=2))
+        # ax.yaxis.set_major_locator(ticker.MaxNLocator(len(RowHeader)))
 
         # グリッド
         # ax.grid()
 
         # 凡例
+        # bbox_to_anchorをうまく調整しないと見切れる
         ax_colorbar = inset_axes(ax, width='50%', height='3%', loc='upper center', bbox_to_anchor=(
             0, -1.3, 1, 1), bbox_transform=ax.transAxes, borderpad=1)
         plt.colorbar(im, cax=ax_colorbar,
@@ -154,36 +172,33 @@ class GraphGenerater:
         fig.savefig(saveFileName)
         # plt.show()
 
-        return saveFileName
-
     def Main(self):
         logging.debug('VV')
         loader = CsvLoader.CsvLoader()
-        savefile = self.GenGraph(loader.LoadTSV(self._csvfile))
-        logging.debug('outputs:' + savefile)
+        # sampledata
+        csvfile = './sample_04.tsv'
+
+        # 保存ファイル名
+        saveFileName = './test.png'
+
+        self.GenGraph(loader.LoadTSV(csvfile), saveFileName)
+
+        logging.debug('outputs:' + saveFileName)
 
         logging.debug('AA')
 
     def __new__(cls):
-        '''[summary]
-
-        Returns:
-            [type]: [description]
-        '''
 
         logging.debug('__new__')
         self = super().__new__(cls)
         return self
 
     def __init__(self):
-        '''[summary]
-        '''
 
         logging.debug('__init__')
 
     def __del__(self):
-        '''[summary]
-        '''
+
         logging.debug('__del__')
 
 

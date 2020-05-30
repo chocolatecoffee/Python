@@ -1,6 +1,5 @@
 import logging
 import csv
-
 import sys
 
 
@@ -13,13 +12,13 @@ class CsvLoader:
                         format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def LoadCSV_Dict(self, csvfile):
-        '''[summary]
+        '''[csvfileをdictを内包したListで返す]
 
         Args:
-            csvfile ([type]): [description]
+            csvfile ([str]): [csvfile path]
 
         Returns:
-            [type]: [description]
+            [List[dict]]: [csvfileの行ごとの内容]
         '''
 
         logging.debug('VV')
@@ -41,13 +40,13 @@ class CsvLoader:
         return _
 
     def LoadCSV(self, csvfile):
-        '''[summary]
+        '''[csvfileをListを内包したListで返す]
 
         Args:
-            csvfile ([type]): [description]
+            csvfile ([str]): [csvfile path]
 
         Returns:
-            [type]: [description]
+            [List[List]]: [csvfileの行ごとの内容]
         '''
 
         logging.debug('VV')
@@ -69,13 +68,13 @@ class CsvLoader:
         return _
 
     def LoadTSV_Dict(self, csvfile):
-        '''[summary]
+        '''[区切り文字がTab用。 csvfileをdictを内包したListで返す]
 
         Args:
-            csvfile ([type]): [description]
+            csvfile ([str]): [csvfile path]
 
         Returns:
-            [type]: [description]
+            [List[dict]]: [csvfileの行ごとの内容]
         '''
 
         logging.debug('VV')
@@ -97,13 +96,13 @@ class CsvLoader:
         return _
 
     def LoadTSV(self, csvfile):
-        '''[summary]
+        '''[区切り文字がTab用。 csvfileをListを内包したListで返す]
 
         Args:
-            csvfile ([type]): [description]
+            csvfile ([str]): [csvfile path]
 
         Returns:
-            [type]: [description]
+            [List[List]]: [csvfileの行ごとの内容]
         '''
 
         logging.debug('VV')
@@ -129,24 +128,14 @@ class CsvLoader:
         logging.debug('AA')
 
     def __new__(cls):
-        '''[summary]
-
-        Returns:
-            [type]: [description]
-        '''
         logging.debug('__new__')
         self = super().__new__(cls)
         return self
 
     def __init__(self):
-        '''[summary]
-        '''
-
         logging.debug('__init__')
 
     def __del__(self):
-        '''[summary]
-        '''
         logging.debug('__del__')
 
 
