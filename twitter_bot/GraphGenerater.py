@@ -188,7 +188,7 @@ class GraphGenerater:
         tmp_today = _yesterday.day
 
         # 表の表示サイズを固定 figsize=(width, height)
-        fig, ax = plt.subplots(figsize=(8,6))
+        fig, ax = plt.subplots(figsize=(10,5))
 
         # グラフのタイトルと，保存ファイル名に年月日をつける
         # 昨日は昨年
@@ -197,7 +197,7 @@ class GraphGenerater:
             graphTitle = '{} CO2濃度　PPM'.format(tmp_year)
                         
             # 表の表示サイズを固定 figsize=(width, height)
-            fig, ax = plt.subplots(figsize=(8, 30))
+            fig, ax = plt.subplots(figsize=(10, 15))
 
         # 昨日は月末
         elif (yesterdayPttn == 'lastMonth'):
@@ -279,7 +279,7 @@ class GraphGenerater:
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        #self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
