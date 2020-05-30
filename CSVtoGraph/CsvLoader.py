@@ -3,14 +3,14 @@ import csv
 
 import sys
 
-# ログレベルのフォーマット Log.txtファイルに出力
-logging.basicConfig(level=logging.DEBUG, filename='Log.txt', filemode='w',
-                    format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
-
 
 class CsvLoader:
     '''[CSV・・・ character separated valuesのことなのでTabでもスペースでもChara扱いなのです。]
     '''
+
+    # ログレベルのフォーマット Log.txtファイルに出力
+    logging.basicConfig(level=logging.DEBUG, filename='Log.txt', filemode='w',
+                        format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
     def LoadCSV_Dict(self, csvfile):
         '''[summary]
@@ -154,4 +154,5 @@ if __name__ == "__main__":
     logging.debug('VV')
     myclass = CsvLoader()
     myclass.Main()
+    del myclass
     logging.debug('AA')
