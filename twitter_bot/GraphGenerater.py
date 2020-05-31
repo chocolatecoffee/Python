@@ -18,22 +18,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 # _today = datetime.datetime.now().isoformat()
 # _today 2019-10-17T23:11:56.338690
 
-_today = datetime.datetime.now()
-#_today = datetime.date(2020,1,1)
-'''datetime obj "Today" '''
 
-_yesterday = _today - timedelta(days=1)
-'''datetime obj "yesterday" '''
-
-_tomorrow = _today + timedelta(days=1)
-'''datetime obj "tomorrow" '''
-
-# _today.year
-# _today.month
-# _today.day
-# _today.hour
-# _today.minute
-# _today.weekday
 
 class GraphGenerater:
     '''20XX_SensorData.jsonから昨日のセンサーデータを取り出す．\n
@@ -45,6 +30,23 @@ class GraphGenerater:
     
     # ログレベルのフォーマット Log.txtファイルに出力
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
+
+    _today = datetime.datetime.now()
+    #_today = datetime.date(2020,1,1)
+    '''datetime obj "Today" '''
+
+    _yesterday = _today - timedelta(days=1)
+    '''datetime obj "yesterday" '''
+
+    _tomorrow = _today + timedelta(days=1)
+    '''datetime obj "tomorrow" '''
+
+    # _today.year
+    # _today.month
+    # _today.day
+    # _today.hour
+    # _today.minute
+    # _today.weekday
 
     _jsonfile = './{}_SensorData.json'.format(_yesterday.year)
     '''昨日のセンサーデータの入ったjsonファイル名を指定 "2019_SensorData.json"と先頭に年が入る
@@ -64,13 +66,13 @@ class GraphGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ，月は同じ，今日の日付が大きい
-        if (_today.year == _yesterday.year and _today.month == _yesterday.month and _today.day > _yesterday.day):
+        if (self._today.year == self._yesterday.year and self._today.month == self._yesterday.month and self._today.day > self._yesterday.day):
             _ = 'yesterday'
         # 年は同じ，昨日
-        elif (_today.year == _yesterday.year and _today.month > _yesterday.month):
+        elif (self._today.year == self._yesterday.year and self._today.month > self._yesterday.month):
             _ = 'lastMonth'
         # 昨年
-        elif (_today.year > _yesterday.year):
+        elif (self._today.year > self._yesterday.year):
             _ = 'lastYear'
         
         #_ = 'yesterday'
@@ -114,10 +116,10 @@ class GraphGenerater:
 
         #logging.debug(type(jsonobj))
 
-        mo = str(_yesterday.month)
+        mo = str(self._yesterday.month)
         # mo = "1"
 
-        today = str(_yesterday.day)
+        today = str(self._yesterday.day)
         #today = "1"
 
         # センサーデータを一月ごとに保管用
@@ -183,12 +185,13 @@ class GraphGenerater:
         # 年は同じ
         yesterdayPttn = self._IsYesterday()
 
-        tmp_year =_yesterday.year
-        tmp_mo = _yesterday.month
-        tmp_today = _yesterday.day
+        tmp_year =self._yesterday.year
+        tmp_mo = self._yesterday.month
+        tmp_today = self._yesterday.day
 
         # 表の表示サイズを固定 figsize=(width, height)
-        fig, ax = plt.subplots(figsize=(10,5))
+        fig, ax = plt.subplots(figsize=(7, 10))
+        ax_colorbar = None
 
         # グラフのタイトルと，保存ファイル名に年月日をつける
         # 昨日は昨年
@@ -197,17 +200,23 @@ class GraphGenerater:
             graphTitle = '{} CO2濃度　PPM'.format(tmp_year)
                         
             # 表の表示サイズを固定 figsize=(width, height)
-            fig, ax = plt.subplots(figsize=(10, 15))
+            fig, ax = plt.subplots(figsize=(7,15))
+            ax_colorbar = inset_axes(ax,width='75%',height='40%',loc='upper center',bbox_to_anchor=(0, -7,1, 1),bbox_transform=ax.transAxes)
 
         # 昨日は月末
         elif (yesterdayPttn == 'lastMonth'):
             saveFileName = './Monthly-CO2濃度.png'
             graphTitle = '{}/{MM:02} CO2濃度　PPM'.format(tmp_year, MM=tmp_mo)
 
+            fig, ax = plt.subplots(figsize=(7, 10))
+            ax_colorbar = inset_axes(ax,width='75%',height='2%',loc='upper center',bbox_to_anchor=(0, -1.1,1, 1),bbox_transform=ax.transAxes)
+
         # 今日の昨日は一日前
         elif (yesterdayPttn == 'yesterday'):
             saveFileName = './Daily-CO2濃度.png'
             graphTitle = '{}/{MM:02}/{DD:02} CO2濃度　PPM'.format(tmp_year, MM=tmp_mo, DD=tmp_today)
+            fig, ax = plt.subplots(figsize=(7,5))
+            ax_colorbar = inset_axes(ax,width='75%',height='40%',loc='upper center',bbox_to_anchor=(0, -7,1, 1),bbox_transform=ax.transAxes)
 
         # https://qiita.com/yniji/items/3fac25c2ffa316990d0c
         # 日本語を利用する場合のFont指定 <個別に>
@@ -246,13 +255,6 @@ class GraphGenerater:
         ax.grid()
 
         # 凡例
-        ax_colorbar = inset_axes(ax,
-                   width='75%',
-                   height='40%',
-                   loc='upper center',
-                   bbox_to_anchor=(0, -7,1, 1),
-                   bbox_transform=ax.transAxes,
-                   )
         fig.colorbar(im, cax=ax_colorbar,orientation='horizontal',label='凡例：CO2 PPM')
         
         fig.savefig(saveFileName)
