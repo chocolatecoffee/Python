@@ -1,0 +1,85 @@
+ 2020-03-10 22:04:31,597 - DEBUG - <module> - VV
+ 2020-03-10 22:04:31,598 - DEBUG - Main - VV
+ 2020-03-10 22:04:32,752 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:04:32,794 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:04:47,139 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:04:47,139 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:04:54,354 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:04:54,354 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:04:54,355 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:04:57,456 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:04:57,456 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:04:57,457 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:04:57,529 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:04:57,529 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:04:57,529 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:01,622 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:01,622 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:02,664 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:02,664 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:02,664 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:02,728 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:02,729 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:02,729 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:16,300 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:16,301 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:16,301 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:21,531 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:21,532 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:21,532 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:21,604 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:21,605 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:21,605 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:22,531 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:22,532 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:28,740 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:28,741 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:29,777 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:29,778 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:29,778 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:05:48,363 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:05:48,363 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:05:48,364 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:06:04,991 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:06:04,991 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:06:04,991 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:06:06,014 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:06:06,015 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:06:06,015 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:06:06,067 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:06:06,068 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:07:15,569 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:07:15,570 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:07:25,990 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:07:25,990 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:07:35,322 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:07:35,323 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:07:35,323 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:07:38,385 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:07:38,385 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:13,711 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:13,711 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:13,712 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:30,316 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:30,316 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:30,317 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:30,379 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:30,379 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:30,379 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:35,498 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:35,498 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:35,498 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:36,528 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:36,529 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:36,529 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:36,595 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:36,595 - DEBUG - get_process_privileges - (5, 'OpenProcess', 'アクセスが拒否されました。')
+ 2020-03-10 22:08:36,595 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:36,651 - DEBUG - get_process_privileges - VV
+ 2020-03-10 22:08:36,651 - DEBUG - get_process_privileges - AA
+ 2020-03-10 22:08:49,014 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:08:49,051 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:08:49,087 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:08:49,124 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:08:49,162 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
+ 2020-03-10 22:08:49,200 - DEBUG - Main - <x_wmi: Unexpected COM Error (-2147352567, '例外が発生しました。', (0, 'SWbemObjectEx', '見つかりませんでした ', None, 0, -2147217406), None)>
