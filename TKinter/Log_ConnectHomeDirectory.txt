@@ -1,0 +1,14 @@
+ 2020-12-20 20:54:45,829 - DEBUG - <module> - VV
+ 2020-12-20 20:54:45,829 - DEBUG - __new__ - __new__
+ 2020-12-20 20:54:45,829 - DEBUG - __init__ - __init__
+ 2020-12-20 20:54:45,829 - DEBUG - Main - VV
+ 2020-12-20 20:54:45,829 - ERROR - LoadJSON - ./Settings.json : FileNotFoundError
+Traceback (most recent call last):
+  File "D:\etc\work\Python\TKinter\ConnectHomeDirectory.py", line 35, in LoadJSON
+    return json.load(open(stngs,'r', encoding='UTF-8'))
+FileNotFoundError: [Errno 2] No such file or directory: './Settings.json'
+ 2020-12-20 20:54:45,830 - ERROR - Main - 'ConnectHomeDirectory' object has no attribute 'EnterUserAndPassFromTK'
+Traceback (most recent call last):
+  File "D:\etc\work\Python\TKinter\ConnectHomeDirectory.py", line 215, in Main
+    id, password = self.EnterUserAndPassFromTK(vid,vpass)
+AttributeError: 'ConnectHomeDirectory' object has no attribute 'EnterUserAndPassFromTK'

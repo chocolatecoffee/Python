@@ -84,6 +84,7 @@ class Twitter_bot:
 
     def __new__(cls):
         '''[summary]
+
         Returns:
             [type]: [description]
         '''

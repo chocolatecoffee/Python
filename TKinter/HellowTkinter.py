@@ -6,11 +6,7 @@ import os
 import tkinter as tk
 import tkinter.messagebox as tkmsgbox
 
-logging.basicConfig(level=logging.DEBUG,
-                    format=' %(asctime)s - %(levelname)s - %(message)s')
-
-root = tk.Tk()
-
+logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
 
 class Application(tk.Frame):
 
@@ -31,33 +27,22 @@ class Application(tk.Frame):
         self.hi_there['command'] = self.say_hi
         self.hi_there.pack()
 
-        tk.Label(self, text='',
-                 foreground='#00ff00', background='#000000').pack()
-
-        tk.Label(self, text='入力入力',
-                 foreground='#ff0000', background='#ffffff').pack(side='top')
-
-        tk.Label(self, text='\n',
-                 foreground='#00ff00', background='#000000').pack()
-
+        tk.Label(self, text='', foreground='#00ff00', background='#000000').pack()
+        tk.Label(self, text='入力入力',  foreground='#ff0000', background='#ffffff').pack(side='top')
+        tk.Label(self, text='\n',  foreground='#00ff00', background='#000000').pack()
         self.entry_01 = tk.Entry(self, width=25)
         self.entry_01.insert(tk.END, 'entry_01,挿入する文字列')
         self.entry_01.pack()
 
         # lambdaで実行する場合,entry_01の内容を消す
-        tk.Button(self, text='エントリーを消す',
-                  command=lambda: self.entry_01.delete(0, tk.END)).pack()
+        tk.Button(self, text='エントリーを消す',  command=lambda: self.entry_01.delete(0, tk.END)).pack()
 
         # entry_01の内容を showMessageへ渡す．
-        tk.Button(self, text='bttn_01', width=25,
-                  command=lambda: app.showMessage(self.entry_01.get())).pack()
+        tk.Button(self, text='bttn_01', width=25, command=lambda: self.showMessage(self.entry_01.get())).pack()
 
         # Windowを終了する
-        tk.Button(self, text='QUIT', fg='red',
-                  command=self.master.destroy).pack()
-
-        tk.Button(self, text='showDialog', width=25,
-                  command=self.showDialog).pack()
+        tk.Button(self, text='QUIT', fg='red', command=self.master.destroy).pack()
+        tk.Button(self, text='showDialog', width=25, command=self.showDialog).pack()
 
     def say_hi(self):
         print('hi there, everyone!')
@@ -91,5 +76,11 @@ class Application(tk.Frame):
         tkmsgbox.askokcancel('ダイアログのタイトル', 'OK/CANCELダイアログ')
 
 
-app = Application(master=root)
-app.mainloop()
+
+if __name__ == '__main__':
+    logging.debug('VV')
+
+    Application(master=tk.Tk()).mainloop()
+
+    logging.debug('AA')
+
