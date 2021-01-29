@@ -104,7 +104,7 @@ class GraphGenerater:
 
         # 日本語を利用する場合のFont指定 <全体>
         plt.rcParams['font.family'] = 'sans-serif'
-        plt.rcParams['font.sans-serif'] = ['MigMix 2P', 'IPAPGothic']
+        plt.rcParams['font.sans-serif'] = ['IPAPGothic']
 
         # 表の表示サイズを固定 figsize=(width, height)
         # fig, ax = plt.subplots(figsize=(8, 6))
@@ -176,7 +176,7 @@ class GraphGenerater:
         logging.debug('VV')
         loader = CsvLoader.CsvLoader()
         # sampledata
-        csvfile = './sample_04.tsv'
+        csvfile = './sample_03.tsv'
 
         # 保存ファイル名
         saveFileName = './test.png'

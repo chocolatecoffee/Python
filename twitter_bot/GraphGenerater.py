@@ -66,14 +66,15 @@ class GraphGenerater:
 
         # 今日の日付と昨日の日付を比較
         # 年は同じ，月は同じ，今日の日付が大きい
-        if (self._today.year == self._yesterday.year and self._today.month == self._yesterday.month and self._today.day > self._yesterday.day):
+        if (self._today.month == self._yesterday.month and self._today.day > self._yesterday.day):
             _ = 'yesterday'
-        # 年は同じ，昨日
-        elif (self._today.year == self._yesterday.year and self._today.month > self._yesterday.month):
+        # 月が違うなら月初め
+        elif (self._today.month != self._yesterday.month):
             _ = 'lastMonth'
-        # 昨年
-        elif (self._today.year > self._yesterday.year):
-            _ = 'lastYear'
+
+        # 昨年 グラフ描画が大きすぎるのでやらない
+        # elif (self._today.year > self._yesterday.year):
+        #    _ = 'lastYear'
         
         #_ = 'yesterday'
         #_ = 'lastMonth'
@@ -129,13 +130,7 @@ class GraphGenerater:
         # 年は同じ
         yesterdayPttn = self._IsYesterday()
 
-        # 昨日は昨年
-        if (yesterdayPttn == 'lastYear'):
-            # 一年分のデータを詰め込み
-            month_sensorData = jsonobj
-
-        # 昨日は月末
-        elif (yesterdayPttn == 'lastMonth'):
+        if (yesterdayPttn == 'lastMonth'):
             # 昨日の月分のセンサーデータリストを月Mapに詰め込み
             month_sensorData.setdefault(mo, {})
             month_sensorData[mo] = jsonobj[mo]
@@ -194,17 +189,9 @@ class GraphGenerater:
         ax_colorbar = None
 
         # グラフのタイトルと，保存ファイル名に年月日をつける
-        # 昨日は昨年
-        if (yesterdayPttn == 'lastYear'):
-            saveFileName = './{}-CO2濃度.png'.format(tmp_year)
-            graphTitle = '{} CO2濃度　PPM'.format(tmp_year)
-                        
-            # 表の表示サイズを固定 figsize=(width, height)
-            fig, ax = plt.subplots(figsize=(7,15))
-            ax_colorbar = inset_axes(ax,width='75%',height='40%',loc='upper center',bbox_to_anchor=(0, -7,1, 1),bbox_transform=ax.transAxes)
-
+        
         # 昨日は月末
-        elif (yesterdayPttn == 'lastMonth'):
+        if (yesterdayPttn == 'lastMonth'):
             saveFileName = './Monthly-CO2濃度.png'
             graphTitle = '{}/{MM:02} CO2濃度　PPM'.format(tmp_year, MM=tmp_mo)
 
