@@ -71,7 +71,7 @@ class CtrlTwitter:
 
         # SensorBME280センサーへアクセス・データの取得
         sensor1 = SensorBME280.bme280()
-        rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp = sensor1.Main()
+        rsp_sensor1_temp,rsp_sensor1_pressure, rsp_sensor1_hum = sensor1.Main()
 
         # CO2センサーへアクセス・データの取得
         sensor0 = CO2Meter.CO2Meter('/dev/hidraw0')
