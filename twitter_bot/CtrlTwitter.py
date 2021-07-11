@@ -59,12 +59,8 @@ class CtrlTwitter:
             pressure (float): 気圧
             hum (float): 湿度
         '''        
-        
-        sensordata = {'Temp': str(temp), 'CO2': str(co2), 'Barometer': str(pressure), 'Humidity': str(hum)}
-        # {'Temp': '22.5', 'CO2': '450', 'Barometer': '1013', 'Humidity': '40'}
-
         _ = LoadAndAddJSON.LoadAndAddJSON()
-        _.add_SensorDataToJSON(sensordata)
+        _.add_SensorDataToJSON({'Temp': str(temp), 'CO2': str(co2), 'Barometer': str(pressure), 'Humidity': str(hum)})
         
     def main(self):
         '''
@@ -83,14 +79,14 @@ class CtrlTwitter:
         time.sleep(10)
         rsp_sensor0_co2, rsp_sensor0_temp = sensor0.get_data()
 
+        #センサーデータを記録
+        self.WriteSensordataToJSON(rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum)
+
         # Tweetメッセージの生成
         sendmsg = self.GenSendMsg(rsp_sensor0_co2['co2'], rsp_sensor0_temp['temperature'], rsp_sensor1_pressure, rsp_sensor1_hum, rsp_sensor1_temp)
 
         # センセーのデータをTweet
         self.UpdateTweetMsg(sendmsg)
-
-        #センサーデータを記録
-        self.WriteSensordataToJSON(rsp_sensor0_temp['temperature'], rsp_sensor0_co2['co2'], rsp_sensor1_pressure, rsp_sensor1_hum)
 
         logging.debug('AA')
 
