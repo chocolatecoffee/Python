@@ -3,7 +3,7 @@ from datetime import timedelta
 import json
 import logging
 # import os
-# import twitter_bot
+import twitter_bot
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -255,11 +255,11 @@ class GraphGenerater:
         '''
 
         sensordata = self.RepackSensordata()
-        #logging.debug(sensordata)
+        logging.debug(sensordata)
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        # self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
