@@ -3,22 +3,15 @@ from datetime import timedelta
 import json
 import logging
 # import os
-import twitter_bot
+# import twitter_bot
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 # import matplotlib.cm as cm
 from matplotlib import rcParams
 
-
 # from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-
-# https://docs.python.org/ja/3/library/datetime.html#
-# _today = datetime.datetime.now().isoformat()
-# _today 2019-10-17T23:11:56.338690
-
-
 
 class GraphGenerater:
     '''20XX_SensorData.jsonから昨日のセンサーデータを取り出す．\n
@@ -27,7 +20,10 @@ class GraphGenerater:
 
         取り出されたデータでグラフを作成する．
     '''
-    
+    # https://docs.python.org/ja/3/library/datetime.html#
+    # _today = datetime.datetime.now().isoformat()
+    # _today 2019-10-17T23:11:56.338690
+
     # ログレベルのフォーマット Log.txtファイルに出力
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
@@ -51,6 +47,16 @@ class GraphGenerater:
     _jsonfile = './{}_SensorData.json'.format(_yesterday.year)
     '''昨日のセンサーデータの入ったjsonファイル名を指定 "2019_SensorData.json"と先頭に年が入る
     '''
+
+    _LoadJSON = lambda self, jsonfile:json.load(open(jsonfile, 'r'))
+    '''_jsonfileをよみだす
+    
+    Args:
+        jsonFile ([str]): [_jsonfile・・・センサーデータが記載されたファイル名]
+    
+    Returns:
+        [_jsonfileを読みだしたもの]
+    '''        
 
     def _IsYesterday(self):
         '''
@@ -84,19 +90,6 @@ class GraphGenerater:
 
         return _
 
-    def _Load_JSON(self, jsonFile):
-        '''_jsonfileをよみだす
-        
-        Args:
-            jsonFile ([str]): [_jsonfile・・・センサーデータが記載されたファイル名]
-        
-        Returns:
-            [jsonobj]: [_jsonfileを読みだしたもの]
-        '''        
-
-        logging.debug('VV')
-        return json.load(open(jsonFile, 'r'))
-
     def RepackSensordata(self):
         '''_jsonfile(20XX_SensorData.json)から昨日のセンサーデータを取り出す．\n
         昨日が月末であれば，先月分のセンサーデータ一ヶ月分を取り出す．\n
@@ -109,13 +102,11 @@ class GraphGenerater:
         logging.debug('VV')
 
         try:
-            jsonobj = self._Load_JSON(self._jsonfile)
+            obj_json = self._LoadJSON(self._jsonfile)
             
         except FileNotFoundError:
             logging.debug('FileNotFound:' + self._jsonfile)
             return
-
-        #logging.debug(type(jsonobj))
 
         mo = str(self._yesterday.month)
         # mo = "1"
@@ -133,16 +124,16 @@ class GraphGenerater:
         if (yesterdayPttn == 'lastMonth'):
             # 昨日の月分のセンサーデータリストを月Mapに詰め込み
             month_sensorData.setdefault(mo, {})
-            month_sensorData[mo] = jsonobj[mo]
+            month_sensorData[mo] = obj_json[mo]
 
         # 昨日
         elif (yesterdayPttn == 'yesterday'):
-            #logging.debug(jsonobj[mo][today])
+            #logging.debug(obj_json[mo][today])
             #logging.debug('---')
 
             # 昨日のセンサーデータリストを月Mapに詰め込み
             month_sensorData.setdefault(mo, {}).setdefault(today,{})
-            month_sensorData[mo][today] = jsonobj[mo][today]
+            month_sensorData[mo][today] = obj_json[mo][today]
 
         logging.debug('AA')
 
@@ -268,23 +259,21 @@ class GraphGenerater:
         savefile = self.GenGraph(sensordata)
         
         # センセーのデータをTweet
-        self.UpdateTweetWithImage('#CO2 concentration',savefile)
+        # self.UpdateTweetWithImage('#CO2 concentration',savefile)
 
     def __new__(cls):
         '''[summary]
-
         Returns:
             [type]: [description]
         '''
-
         logging.debug('__new__')
         self = super().__new__(cls)
+        
         return self
 
     def __init__(self):
         '''[summary]
         '''
-
         logging.debug('__init__')
 
     def __del__(self):

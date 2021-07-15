@@ -18,17 +18,12 @@ class Twitter_bot:
     # logfile
     logging.basicConfig(level=logging.DEBUG, filename='./Log.txt', filemode='w',format=' %(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
 
-    _jsondata = './twitter_token.json'
+    _jsonfile = './twitter_token.json'
     '''twitter tokenを記述しておく'''
 
-    def _LoadJSON(self):
-        '''JSONの読み取り ”_jsondata”を読み取る
-        '''
-        logging.debug('VV')
+    _LoadJSON = lambda self, jsonfile:json.load(open(jsonfile, 'r'))
+    '''_jsonfileをよみだす'''
 
-        # Json読み取り
-        return json.load(open(self._jsondata, 'r'))
-    
     def UpdateTweet(self, msg):
         '''[通常のTweet]
         
@@ -49,7 +44,7 @@ class Twitter_bot:
 
         logging.debug('VV')
 
-        obj_json = self._LoadJSON()
+        obj_json = self._LoadJSON(self._jsonfile)
 
         obj_twitter = twitter.Twitter(auth=twitter.OAuth(obj_json['token'], obj_json['token_secret'], obj_json['consumer_key'], obj_json['consumer_secret']))
         
